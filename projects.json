@@ -1,0 +1,53 @@
+{
+  "orchestrator_port": 9000,
+  "poll_interval_seconds": 3,
+  "projects": [
+    {
+      "id": "prod-web-app",
+      "name": "Production Web App",
+      "description": "Main Node.js Server",
+      "path": "/var/www/my-app",
+      "command": "npm run start",
+      "port": 8080,
+      "host": "0.0.0.0",
+      "external_ip": "127.0.0.1",
+      "health_check": "/health",
+      "color": "#6366f1",
+      "requires_admin": false
+    },
+    {
+      "id": "prod-worker",
+      "name": "Background Worker",
+      "description": "Python Celery/Worker",
+      "path": "/opt/worker",
+      "command": "python worker.py",
+      "port": 5050,
+      "host": "0.0.0.0",
+      "external_ip": "127.0.0.1",
+      "health_check": null,
+      "color": "#10b981",
+      "requires_admin": false
+    },
+    {
+      "id": "remote-db",
+      "name": "Database Cluster",
+      "description": "Remote PostgreSQL Node",
+      "path": "/var/lib/postgresql",
+      "port": 5432,
+      "host": "0.0.0.0",
+      "external_ip": "10.0.0.5",
+      "health_check": null,
+      "color": "#f59e0b",
+      "requires_admin": false,
+      "ssh": {
+        "enabled": true,
+        "user": "dbadmin",
+        "host": "10.0.0.5",
+        "remote_path": "/var/lib/postgresql",
+        "start_command": "sudo systemctl start postgresql",
+        "stop_command": "sudo systemctl stop postgresql",
+        "status_command": "systemctl is-active postgresql"
+      }
+    }
+  ]
+}
