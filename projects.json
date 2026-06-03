@@ -13,7 +13,8 @@
       "external_ip": "192.168.2.172",
       "health_check": "/health",
       "color": "#6366f1",
-      "requires_admin": false
+      "requires_admin": false,
+      "environment": "dev"
     },
     {
       "id": "open-sga",
@@ -26,7 +27,8 @@
       "external_ip": "192.168.2.172",
       "health_check": null,
       "color": "#10b981",
-      "requires_admin": false
+      "requires_admin": false,
+      "environment": "dev"
     },
     {
       "id": "qb-web",
@@ -39,7 +41,8 @@
       "external_ip": "192.168.2.172",
       "health_check": null,
       "color": "#f59e0b",
-      "requires_admin": true
+      "requires_admin": true,
+      "environment": "dev"
     },
     {
       "id": "panel-control",
@@ -52,7 +55,8 @@
       "external_ip": "192.168.2.172",
       "health_check": null,
       "color": "#ec4899",
-      "requires_admin": false
+      "requires_admin": false,
+      "environment": "dev"
     }
   ]
 }

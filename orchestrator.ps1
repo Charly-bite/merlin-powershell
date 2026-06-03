@@ -200,6 +200,7 @@ function Get-ProjectStatus {
         Managed     = $managed
         NeedsAdmin  = [bool]$Project.requires_admin
         IsSSH       = $isSSH
+        Environment = if ($Project.environment) { $Project.environment } else { "dev" }
     }
 }
 
@@ -426,6 +427,30 @@ function Restart-Project {
     Start-Project -Project $Project
 }
 
+function Confirm-ProductionAction {
+    <# Shows a warning for production services and requires typing PROD to confirm. Returns $true for dev. #>
+    param([string]$ActionName, $Project)
+    $projEnv = if ($Project.environment) { $Project.environment } else { "dev" }
+    if ($projEnv -ne "prod") { return $true }
+
+    Write-Host ""
+    Write-Host "  +----------------------------------------------------------------------+" -ForegroundColor Red
+    Write-Host "  |  WARNING: PRODUCTION SERVICE                                        |" -ForegroundColor Red
+    Write-Host "  +----------------------------------------------------------------------+" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "  Action:  $ActionName" -ForegroundColor Yellow
+    Write-Host "  Service: $($Project.name)" -ForegroundColor Yellow
+    Write-Host "  Host:    $($Project.ssh.host)" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "  This will affect the LIVE production system!" -ForegroundColor Red
+    Write-Host ""
+    Write-Host -NoNewline "  Type PROD to confirm: " -ForegroundColor Red
+    $confirm = Read-Host
+    if ($confirm -eq "PROD") { return $true }
+    Write-Host "  Cancelled." -ForegroundColor DarkGray
+    return $false
+}
+
 function Kill-AllProjects {
     <# Kills every process on every configured port, including zombies. #>
     param($Projects)
@@ -603,11 +628,7 @@ function Show-Dashboard {
     $time    = (Get-Date).ToString("HH:mm:ss")
 
     [Console]::CursorVisible = $false
-    if ($InPlace) {
-        [Console]::SetCursorPosition(0, 0)
-    } else {
-        Clear-Host
-    }
+    [Console]::Clear()
 
     # -- ASCII Art Header --
     Write-Host ""
@@ -617,9 +638,9 @@ function Show-Dashboard {
     Write-Host '    | |  | | |___|  _ <| |___ | || |\  |' -ForegroundColor Cyan
     Write-Host '    |_|  |_|_____|_| \_\_____|___|_| \_|' -ForegroundColor DarkCyan
     Write-Host ""
-    Write-Host -NoNewline "    DEV SERVER MANAGER" -ForegroundColor White
-    Write-Host -NoNewline "                                               " -ForegroundColor DarkGray
-    Write-Host "v2.2" -ForegroundColor DarkGray
+    Write-Host -NoNewline "    DEV & PROD SERVER MANAGER" -ForegroundColor White
+    Write-Host -NoNewline "                                        " -ForegroundColor DarkGray
+    Write-Host "v2.3" -ForegroundColor DarkGray
     Write-Host "    $("_" * 70)" -ForegroundColor DarkGray
 
     # -- Summary Bar --
@@ -634,12 +655,12 @@ function Show-Dashboard {
     Write-Host -NoNewline "$time" -ForegroundColor DarkGray
     Write-Host -NoNewline "  [" -ForegroundColor DarkGray
     $script:ProgressBarCol = [Console]::CursorLeft
-    $script:ProgressBarRow = [Console]::CursorTop
+    # ProgressBarRow will be calculated at the end of Show-Dashboard to account for any scrolling/offsets
     Write-Host -NoNewline (" " * 10) -ForegroundColor DarkGray
     Write-Host "]" -ForegroundColor DarkGray
     Write-Host ""
 
-    $colW = @{ Num=5; Name=15; Status=12; Addr=21; PID=7; Up=10 }
+    $colW = @{ Num=5; Name=21; Status=12; Addr=21; PID=7; Up=10 }
     $sep = "  +" + ("-" * $colW.Num) + "+" + ("-" * $colW.Name) + "+" + ("-" * $colW.Status) + "+" + ("-" * $colW.Addr) + "+" + ("-" * $colW.PID) + "+" + ("-" * $colW.Up) + "+"
 
     Write-Host $sep -ForegroundColor DarkGray
@@ -755,7 +776,17 @@ function Show-Dashboard {
     )
     try {
         $savedRow = [Console]::CursorTop
-        $wizCol = 80
+        
+        # Calculate the exact ProgressBarRow relative to the end of the printed dashboard text,
+        # which dynamically accounts for any scrolling or terminal height offsets.
+        $hasAdmin = [bool]($Statuses | Where-Object { $_.NeedsAdmin })
+        $adminLines = if ($hasAdmin) { 1 } else { 0 }
+        $sel = $Statuses[$SelectedIndex]
+        $urlLines = if ($sel.Url) { 1 } else { 0 }
+        $script:ProgressBarRow = $savedRow - 14 - $Statuses.Count - $adminLines - $urlLines
+        $script:DashboardEndRow = $savedRow
+
+        $wizCol = 88
         $wizRow = 1
         $bufWidth = [Console]::BufferWidth
         $maxWizLen = $bufWidth - $wizCol - 1
@@ -808,6 +839,10 @@ function Show-InfoPanel {
     Write-Host "$($s.Description)" -ForegroundColor Gray
     Write-Host -NoNewline "   ID:            " -ForegroundColor DarkGray
     Write-Host "$($s.Id)" -ForegroundColor Gray
+    Write-Host -NoNewline "   Environment:   " -ForegroundColor DarkGray
+    $envLabel = if ($s.Environment -eq "prod") { "PRODUCTION" } else { "DEVELOPMENT" }
+    $envInfoColor = if ($s.Environment -eq "prod") { "Red" } else { "Cyan" }
+    Write-Host "$envLabel" -ForegroundColor $envInfoColor
 
     Write-Host ""
     Write-Host "  -- Status ---------------------------------------------------------------" -ForegroundColor DarkGray
@@ -925,6 +960,10 @@ function Show-ActionMenu {
     Write-Host "$statusIcon $($s.Status)" -ForegroundColor $statusColor
     Write-Host -NoNewline "   Address:  " -ForegroundColor DarkGray
     Write-Host "$($s.Address)" -ForegroundColor Cyan
+    if ($s.Environment -eq "prod") {
+        Write-Host -NoNewline "   Env:      " -ForegroundColor DarkGray
+        Write-Host "PRODUCTION" -ForegroundColor Red
+    }
     Write-Host ""
     Write-Host "  +----------------------------------------------------------------------+" -ForegroundColor DarkGray
 
@@ -1015,6 +1054,13 @@ function Handle-SubScreen {
         switch ($ch) {
             "S" {
                 Write-Host ""
+                if (-not (Confirm-ProductionAction -ActionName "START" -Project $Project)) {
+                    Write-Host ""; Write-Host "  Press any key..." -ForegroundColor DarkGray
+                    $null = [Console]::ReadKey($true)
+                    if ($Screen -eq "info") { Show-InfoPanel -Status $Status -Project $Project }
+                    elseif ($Screen -eq "action") { Show-ActionMenu -Status $Status -Project $Project }
+                    continue
+                }
                 Start-Project -Project $Project
                 Write-Host ""; Write-Host "  Press any key..." -ForegroundColor DarkGray
                 $null = [Console]::ReadKey($true)
@@ -1025,12 +1071,23 @@ function Handle-SubScreen {
             }
             "K" {
                 Write-Host ""
-                Write-Host -NoNewline "  Kill $($Project.name)? (y/N): " -ForegroundColor Red
-                $confirm = [Console]::ReadKey($true)
-                Write-Host $confirm.KeyChar
-                if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                if ($Project.environment -eq "prod") {
+                    if (-not (Confirm-ProductionAction -ActionName "KILL" -Project $Project)) {
+                        Write-Host ""; Write-Host "  Press any key..." -ForegroundColor DarkGray
+                        $null = [Console]::ReadKey($true)
+                        if ($Screen -eq "info") { Show-InfoPanel -Status $Status -Project $Project }
+                        elseif ($Screen -eq "action") { Show-ActionMenu -Status $Status -Project $Project }
+                        continue
+                    }
                     Stop-Project -Project $Project
-                } else { Write-Host "  Cancelled." -ForegroundColor DarkGray }
+                } else {
+                    Write-Host -NoNewline "  Kill $($Project.name)? (y/N): " -ForegroundColor Red
+                    $confirm = [Console]::ReadKey($true)
+                    Write-Host $confirm.KeyChar
+                    if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                        Stop-Project -Project $Project
+                    } else { Write-Host "  Cancelled." -ForegroundColor DarkGray }
+                }
                 Write-Host ""; Write-Host "  Press any key..." -ForegroundColor DarkGray
                 $null = [Console]::ReadKey($true)
                 $portMap = Get-AllListeningPorts
@@ -1040,12 +1097,23 @@ function Handle-SubScreen {
             }
             "R" {
                 Write-Host ""
-                Write-Host -NoNewline "  Restart $($Project.name)? (y/N): " -ForegroundColor Yellow
-                $confirm = [Console]::ReadKey($true)
-                Write-Host $confirm.KeyChar
-                if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                if ($Project.environment -eq "prod") {
+                    if (-not (Confirm-ProductionAction -ActionName "RESTART" -Project $Project)) {
+                        Write-Host ""; Write-Host "  Press any key..." -ForegroundColor DarkGray
+                        $null = [Console]::ReadKey($true)
+                        if ($Screen -eq "info") { Show-InfoPanel -Status $Status -Project $Project }
+                        elseif ($Screen -eq "action") { Show-ActionMenu -Status $Status -Project $Project }
+                        continue
+                    }
                     Restart-Project -Project $Project
-                } else { Write-Host "  Cancelled." -ForegroundColor DarkGray }
+                } else {
+                    Write-Host -NoNewline "  Restart $($Project.name)? (y/N): " -ForegroundColor Yellow
+                    $confirm = [Console]::ReadKey($true)
+                    Write-Host $confirm.KeyChar
+                    if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                        Restart-Project -Project $Project
+                    } else { Write-Host "  Cancelled." -ForegroundColor DarkGray }
+                }
                 Write-Host ""; Write-Host "  Press any key..." -ForegroundColor DarkGray
                 $null = [Console]::ReadKey($true)
                 $portMap = Get-AllListeningPorts
@@ -1122,6 +1190,11 @@ function Main {
                 [Console]::ForegroundColor = [ConsoleColor]::Cyan
                 [Console]::Write(("*" * $progress) + (" " * (10 - $progress)))
                 [Console]::ForegroundColor = $origFg
+                
+                # Restore cursor to the bottom of the dashboard so user prompts/outputs don't overlap
+                if ($null -ne $script:DashboardEndRow) {
+                    [Console]::SetCursorPosition(0, $script:DashboardEndRow)
+                }
             } catch {}
             Start-Sleep -Milliseconds 80
         }
@@ -1179,28 +1252,51 @@ function Main {
                     }
                     "S" {
                         Write-Host ""
+                        if (-not (Confirm-ProductionAction -ActionName "START" -Project $selProject)) {
+                            Start-Sleep -Milliseconds 500
+                            Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
+                            continue
+                        }
                         Start-Project -Project $selProject
                         Start-Sleep -Milliseconds 800
                         $statuses = Refresh-AllStatuses -Projects $projects
                         Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
                     }
                     "K" {
-                        Write-Host -NoNewline "  Kill $($selProject.name)? (y/N): " -ForegroundColor Red
-                        $confirm = [Console]::ReadKey($true)
-                        Write-Host $confirm.KeyChar
-                        if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                        if ($selProject.environment -eq "prod") {
+                            if (-not (Confirm-ProductionAction -ActionName "KILL" -Project $selProject)) {
+                                Start-Sleep -Milliseconds 500
+                                Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
+                                continue
+                            }
                             Stop-Project -Project $selProject
+                        } else {
+                            Write-Host -NoNewline "  Kill $($selProject.name)? (y/N): " -ForegroundColor Red
+                            $confirm = [Console]::ReadKey($true)
+                            Write-Host $confirm.KeyChar
+                            if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                                Stop-Project -Project $selProject
+                            }
                         }
                         Start-Sleep -Milliseconds 500
                         $statuses = Refresh-AllStatuses -Projects $projects
                         Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
                     }
                     "R" {
-                        Write-Host -NoNewline "  Restart $($selProject.name)? (y/N): " -ForegroundColor Yellow
-                        $confirm = [Console]::ReadKey($true)
-                        Write-Host $confirm.KeyChar
-                        if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                        if ($selProject.environment -eq "prod") {
+                            if (-not (Confirm-ProductionAction -ActionName "RESTART" -Project $selProject)) {
+                                Start-Sleep -Milliseconds 500
+                                Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
+                                continue
+                            }
                             Restart-Project -Project $selProject
+                        } else {
+                            Write-Host -NoNewline "  Restart $($selProject.name)? (y/N): " -ForegroundColor Yellow
+                            $confirm = [Console]::ReadKey($true)
+                            Write-Host $confirm.KeyChar
+                            if ($confirm.KeyChar -eq "y" -or $confirm.KeyChar -eq "Y") {
+                                Restart-Project -Project $selProject
+                            }
                         }
                         Start-Sleep -Milliseconds 500
                         $statuses = Refresh-AllStatuses -Projects $projects
