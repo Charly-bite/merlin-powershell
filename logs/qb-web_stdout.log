@@ -1,0 +1,12 @@
+2026-06-03 09:29:28,589 - WARNING - WARNING: Using default admin password. Set ADMIN_PASSWORD environment variable in production!
+2026-06-03 09:29:28,599 - INFO - Users file already in new schema format.
+2026-06-03 09:29:28,600 - INFO - Database initialized (product_categories table checked/created).
+2026-06-03 09:29:28,655 - INFO - No zombie processes found on port 80
+2026-06-03 09:29:28,656 - INFO - Starting server on port 80...
+2026-06-03 09:29:28,656 - INFO - Data file: C:\Users\CarlosAlbertoAcevesC\QB-WEB\data\visits.json
+Server started at http://localhost:80
+--------------------------------------------------
+VERSION CHECK: Chemical Function Patch v2 LOADED
+--------------------------------------------------
+Press Ctrl+C to stop the server.
+2026-06-03 09:29:28,658 - INFO - Server started at http://localhost:80

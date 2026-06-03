@@ -1,0 +1,58 @@
+{
+  "orchestrator_port": 9000,
+  "poll_interval_seconds": 3,
+  "projects": [
+    {
+      "id": "open-oms",
+      "name": "Open-OMS",
+      "description": "Order Tracking System",
+      "path": "C:/Users/CarlosAlbertoAcevesC/Desktop/DEV SAO",
+      "command": ".venv/Scripts/python.exe app.py",
+      "port": 5003,
+      "host": "0.0.0.0",
+      "external_ip": "192.168.2.172",
+      "health_check": "/health",
+      "color": "#6366f1",
+      "requires_admin": false
+    },
+    {
+      "id": "open-sga",
+      "name": "Open-SGA",
+      "description": "GHS Label Management System",
+      "path": "C:/Users/CarlosAlbertoAcevesC/Desktop/SGA DEV",
+      "command": "set DEV_PORT=5004&& set SGA_ENV=development&& cd sga_web && ../.venv/Scripts/python.exe run_development.py",
+      "port": 5004,
+      "host": "0.0.0.0",
+      "external_ip": "192.168.2.172",
+      "health_check": null,
+      "color": "#10b981",
+      "requires_admin": false
+    },
+    {
+      "id": "qb-web",
+      "name": "QB-WEB",
+      "description": "Chemical Company Website",
+      "path": "C:/Users/CarlosAlbertoAcevesC/QB-WEB",
+      "command": "python server.py",
+      "port": 80,
+      "host": "0.0.0.0",
+      "external_ip": "192.168.2.172",
+      "health_check": null,
+      "color": "#f59e0b",
+      "requires_admin": true
+    },
+    {
+      "id": "panel-control",
+      "name": "Panel Control",
+      "description": "Next.js Control Panel",
+      "path": "C:/Users/CarlosAlbertoAcevesC/Panel Control",
+      "command": "npm run dev",
+      "port": 555,
+      "host": "localhost",
+      "external_ip": "192.168.2.172",
+      "health_check": null,
+      "color": "#ec4899",
+      "requires_admin": false
+    }
+  ]
+}

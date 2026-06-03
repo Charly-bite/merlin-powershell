@@ -1,0 +1,914 @@
+✅ SAP connector available
+2026-06-03 08:21:38,156 [INFO] core.database_client: ✅ SQL Server connected
+2026-06-03 08:21:38,185 [INFO] core.user_manager: ✅ Loaded 1 users from seguimiento_users
+2026-06-03 08:21:38,903 [INFO] core.database_client: ✅ SQL Server connected
+✅ Loaded 1968 orders from seguimiento_order_status
+✅ SAP Connector initialized (Lazy connection mode)
+============================================================
+📦  Open-OMS — Order Tracking System
+============================================================
+🔌 SAP Available: True
+📊 Orders loaded: 1968
+============================================================
+2026-06-03 08:21:39,493 [INFO] core.sap_sync_worker: SAP Sync Worker thread started.
+ * Serving Flask app 'app'
+ * Debug mode: on
+2026-06-03 08:21:41,138 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://192.168.1.96:5003
+2026-06-03 08:21:41,139 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-06-03 08:21:41,141 [INFO] werkzeug:  * Restarting with stat
+✅ SAP connector available
+2026-06-03 08:21:42,940 [INFO] core.database_client: ✅ SQL Server connected
+2026-06-03 08:21:43,052 [INFO] core.user_manager: ✅ Loaded 1 users from seguimiento_users
+2026-06-03 08:21:43,782 [INFO] core.database_client: ✅ SQL Server connected
+✅ Loaded 1968 orders from seguimiento_order_status
+✅ SAP Connector initialized (Lazy connection mode)
+============================================================
+📦  Open-OMS — Order Tracking System
+============================================================
+🔌 SAP Available: True
+📊 Orders loaded: 1968
+============================================================
+2026-06-03 08:21:44,146 [INFO] core.sap_sync_worker: SAP Sync Worker thread started.
+2026-06-03 08:21:44,161 [WARNING] werkzeug:  * Debugger is active!
+2026-06-03 08:21:44,164 [INFO] werkzeug:  * Debugger PIN: 257-436-484
+2026-06-03 08:21:44,203 [INFO] open_oms.requests: GET /orders/stream → 200 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:44,205 [INFO] open_oms.requests: GET /orders/stream → 200 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:44,207 [INFO] open_oms.requests: GET / → 302 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:44,208 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:44] "[32mGET / HTTP/1.1[0m" 302 -
+2026-06-03 08:21:44,211 [INFO] open_oms.requests: GET /orders/ → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:44,212 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:44] "[32mGET /orders/ HTTP/1.1[0m" 302 -
+2026-06-03 08:21:44,257 [INFO] open_oms.requests: GET /login → 200 (42.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:44,259 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:44] "GET /login?next=/orders/ HTTP/1.1" 200 -
+2026-06-03 08:21:44,275 [INFO] open_oms.requests: GET /api/monitor/health → 200 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:44,275 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:44] "GET /api/monitor/health HTTP/1.1" 200 -
+2026-06-03 08:21:44,499 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:21:44,819 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:21:46,863 [INFO] open_oms.requests: GET / → 302 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:46,864 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:46] "[32mGET / HTTP/1.1[0m" 302 -
+2026-06-03 08:21:46,867 [INFO] open_oms.requests: GET /orders/ → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:46,868 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:46] "[32mGET /orders/ HTTP/1.1[0m" 302 -
+2026-06-03 08:21:46,873 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:46,874 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:46] "GET /login?next=/orders/ HTTP/1.1" 200 -
+2026-06-03 08:21:46,888 [INFO] open_oms.requests: GET /api/monitor/health → 200 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:46,889 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:46] "GET /api/monitor/health HTTP/1.1" 200 -
+2026-06-03 08:21:47,819 [INFO] root: Auto-Terminado: order=16813, delivery_note=15762
+2026-06-03 08:21:47,820 [INFO] root: Auto-Terminado: order=16889, delivery_note=15761
+2026-06-03 08:21:47,820 [INFO] root: Auto-Terminado: order=16941, delivery_note=15760
+2026-06-03 08:21:47,821 [INFO] root: Auto-Terminado: order=16924, delivery_note=15759
+2026-06-03 08:21:47,821 [INFO] root: Auto-Terminado: order=16940, delivery_note=15758
+2026-06-03 08:21:47,821 [INFO] root: Auto-Terminado: order=16921, delivery_note=15757
+2026-06-03 08:21:47,821 [INFO] root: Auto-Terminado: order=16923, delivery_note=15756
+2026-06-03 08:21:47,822 [INFO] root: Auto-Terminado: order=16936, delivery_note=15754
+2026-06-03 08:21:47,822 [INFO] root: Auto-Terminado: order=16935, delivery_note=15753
+2026-06-03 08:21:47,822 [INFO] root: Auto-Terminado: order=16931, delivery_note=15752
+2026-06-03 08:21:47,822 [INFO] root: Auto-Terminado: order=16919, delivery_note=15751
+2026-06-03 08:21:47,823 [INFO] root: Auto-Terminado: order=16922, delivery_note=15750
+2026-06-03 08:21:47,823 [INFO] root: Auto-Terminado: order=16898, delivery_note=15749
+2026-06-03 08:21:47,823 [INFO] root: Auto-Terminado: order=16930, delivery_note=15748
+2026-06-03 08:21:47,823 [INFO] root: Auto-Terminado: order=16816, delivery_note=15747
+2026-06-03 08:21:47,824 [INFO] root: Auto-Terminado: order=16928, delivery_note=15746
+2026-06-03 08:21:47,824 [INFO] root: Auto-Terminado: order=16929, delivery_note=15745
+2026-06-03 08:21:47,824 [INFO] root: Auto-Terminado: order=16927, delivery_note=15744
+2026-06-03 08:21:47,824 [INFO] root: Auto-Terminado: order=16932, delivery_note=15743
+2026-06-03 08:21:47,825 [INFO] root: Auto-Terminado: order=16933, delivery_note=15742
+2026-06-03 08:21:47,825 [INFO] root: Auto-Terminado: order=16887, delivery_note=15741
+2026-06-03 08:21:47,825 [INFO] root: Auto-Terminado: order=16926, delivery_note=15740
+2026-06-03 08:21:47,825 [INFO] root: Auto-Terminado: order=16925, delivery_note=15739
+2026-06-03 08:21:47,826 [INFO] root: Auto-Terminado: order=16910, delivery_note=15738
+2026-06-03 08:21:47,826 [INFO] root: Auto-Terminado: order=16918, delivery_note=15737
+2026-06-03 08:21:47,826 [INFO] root: Auto-Terminado: order=16917, delivery_note=15736
+2026-06-03 08:21:47,827 [INFO] root: Auto-Terminado: order=16913, delivery_note=15735
+2026-06-03 08:21:47,827 [INFO] root: Auto-Terminado: order=16886, delivery_note=15734
+2026-06-03 08:21:47,827 [INFO] root: Auto-Terminado: order=16914, delivery_note=15733
+2026-06-03 08:21:47,827 [INFO] root: Auto-Terminado: order=16883, delivery_note=15732
+2026-06-03 08:21:47,828 [INFO] root: Auto-Terminado: order=16908, delivery_note=15731
+2026-06-03 08:21:47,828 [INFO] root: Auto-Terminado: order=16884, delivery_note=15730
+2026-06-03 08:21:47,828 [INFO] root: Auto-Terminado: order=16916, delivery_note=15729
+2026-06-03 08:21:47,828 [INFO] root: Auto-Terminado: order=16906, delivery_note=15726
+2026-06-03 08:21:47,829 [INFO] root: Auto-Terminado: order=16911, delivery_note=15725
+2026-06-03 08:21:47,829 [INFO] root: Auto-Terminado: order=16909, delivery_note=15724
+2026-06-03 08:21:47,829 [INFO] root: Auto-Terminado: order=16882, delivery_note=15723
+2026-06-03 08:21:47,830 [INFO] root: Auto-Terminado: order=16901, delivery_note=15722
+2026-06-03 08:21:47,830 [INFO] root: Auto-Terminado: order=16881, delivery_note=15721
+2026-06-03 08:21:48,131 [INFO] root: Auto-Facturacion: order=16901, invoice=16416
+2026-06-03 08:21:48,132 [INFO] root: Auto-Facturacion: order=16907, invoice=16417
+2026-06-03 08:21:48,132 [INFO] root: Auto-Facturacion: order=16909, invoice=16418
+2026-06-03 08:21:48,133 [INFO] root: Auto-Facturacion: order=16882, invoice=16419
+2026-06-03 08:21:48,133 [INFO] root: Auto-Facturacion: order=16881, invoice=16420
+2026-06-03 08:21:48,133 [INFO] root: Auto-Facturacion: order=16906, invoice=16421
+2026-06-03 08:21:48,134 [INFO] root: Auto-Facturacion: order=16916, invoice=16422
+2026-06-03 08:21:48,134 [INFO] root: Auto-Facturacion: order=16908, invoice=16423
+2026-06-03 08:21:48,134 [INFO] root: Auto-Facturacion: order=16917, invoice=16425
+2026-06-03 08:21:48,134 [INFO] root: Auto-Facturacion: order=16913, invoice=16426
+2026-06-03 08:21:48,135 [INFO] root: Auto-Facturacion: order=16914, invoice=16427
+2026-06-03 08:21:48,135 [INFO] root: Auto-Facturacion: order=16886, invoice=16428
+2026-06-03 08:21:48,135 [INFO] root: Auto-Facturacion: order=16918, invoice=16429
+2026-06-03 08:21:48,136 [INFO] root: Auto-Facturacion: order=16883, invoice=16430
+2026-06-03 08:21:48,136 [INFO] root: Auto-Facturacion: order=16895, invoice=16431
+2026-06-03 08:21:48,136 [INFO] root: Auto-Facturacion: order=16926, invoice=16432
+2026-06-03 08:21:48,136 [INFO] root: Auto-Facturacion: order=16932, invoice=16433
+2026-06-03 08:21:48,137 [INFO] root: Auto-Facturacion: order=16887, invoice=16434
+2026-06-03 08:21:48,137 [INFO] root: Auto-Facturacion: order=16910, invoice=16436
+2026-06-03 08:21:48,137 [INFO] root: Auto-Facturacion: order=16933, invoice=16437
+2026-06-03 08:21:48,137 [INFO] root: Auto-Facturacion: order=16927, invoice=16438
+2026-06-03 08:21:48,138 [INFO] root: Auto-Facturacion: order=16928, invoice=16439
+2026-06-03 08:21:48,138 [INFO] root: Auto-Facturacion: order=16930, invoice=16440
+2026-06-03 08:21:48,138 [INFO] root: Auto-Facturacion: order=16922, invoice=16441
+2026-06-03 08:21:48,138 [INFO] root: Auto-Facturacion: order=16931, invoice=16442
+2026-06-03 08:21:48,139 [INFO] root: Auto-Facturacion: order=16925, invoice=16443
+2026-06-03 08:21:48,139 [INFO] root: Auto-Facturacion: order=16919, invoice=16444
+2026-06-03 08:21:48,139 [INFO] root: Auto-Facturacion: order=16816, invoice=16445
+2026-06-03 08:21:48,140 [INFO] root: Auto-Facturacion: order=16898, invoice=16446
+2026-06-03 08:21:48,140 [INFO] root: Auto-Facturacion: order=16935, invoice=16447
+2026-06-03 08:21:48,140 [INFO] root: Auto-Facturacion: order=16884, invoice=16448
+2026-06-03 08:21:48,141 [INFO] root: Auto-Facturacion: order=16936, invoice=16449
+2026-06-03 08:21:48,141 [INFO] root: Auto-Facturacion: order=16921, invoice=16450
+2026-06-03 08:21:48,141 [INFO] root: Auto-Facturacion: order=16923, invoice=16451
+2026-06-03 08:21:48,141 [INFO] root: Auto-Facturacion: order=16924, invoice=16452
+2026-06-03 08:21:48,142 [INFO] root: Auto-Facturacion: order=16940, invoice=16453
+2026-06-03 08:21:48,142 [INFO] root: Auto-Facturacion: order=16941, invoice=16454
+2026-06-03 08:21:48,142 [INFO] root: Auto-Facturacion: order=16813, invoice=16455
+2026-06-03 08:21:48,142 [INFO] root: Auto-Facturacion: order=16889, invoice=16456
+2026-06-03 08:21:49,158 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:21:49,457 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:21:51,875 [INFO] open_oms.requests: GET / → 302 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:51,876 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:51] "[32mGET / HTTP/1.1[0m" 302 -
+2026-06-03 08:21:51,879 [INFO] open_oms.requests: GET /orders/ → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:51,880 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:51] "[32mGET /orders/ HTTP/1.1[0m" 302 -
+2026-06-03 08:21:51,885 [INFO] open_oms.requests: GET /login → 200 (1.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:51,887 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:51] "GET /login?next=/orders/ HTTP/1.1" 200 -
+2026-06-03 08:21:51,901 [INFO] open_oms.requests: GET /api/monitor/health → 200 (0.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:51,902 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:51] "GET /api/monitor/health HTTP/1.1" 200 -
+2026-06-03 08:21:52,465 [INFO] root: Auto-Terminado: order=16813, delivery_note=15762
+2026-06-03 08:21:52,465 [INFO] root: Auto-Terminado: order=16889, delivery_note=15761
+2026-06-03 08:21:52,466 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:52] "GET /orders/stream HTTP/1.1" 200 -
+2026-06-03 08:21:52,466 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:52] "GET /orders/stream HTTP/1.1" 200 -
+2026-06-03 08:21:52,466 [INFO] root: Auto-Terminado: order=16941, delivery_note=15760
+2026-06-03 08:21:52,467 [INFO] root: Auto-Terminado: order=16924, delivery_note=15759
+2026-06-03 08:21:52,467 [INFO] root: Auto-Terminado: order=16940, delivery_note=15758
+2026-06-03 08:21:52,468 [INFO] root: Auto-Terminado: order=16921, delivery_note=15757
+2026-06-03 08:21:52,468 [INFO] root: Auto-Terminado: order=16923, delivery_note=15756
+2026-06-03 08:21:52,468 [INFO] root: Auto-Terminado: order=16936, delivery_note=15754
+2026-06-03 08:21:52,469 [INFO] root: Auto-Terminado: order=16935, delivery_note=15753
+2026-06-03 08:21:52,469 [INFO] root: Auto-Terminado: order=16931, delivery_note=15752
+2026-06-03 08:21:52,469 [INFO] root: Auto-Terminado: order=16919, delivery_note=15751
+2026-06-03 08:21:52,470 [INFO] root: Auto-Terminado: order=16922, delivery_note=15750
+2026-06-03 08:21:52,470 [INFO] root: Auto-Terminado: order=16898, delivery_note=15749
+2026-06-03 08:21:52,471 [INFO] root: Auto-Terminado: order=16930, delivery_note=15748
+2026-06-03 08:21:52,471 [INFO] root: Auto-Terminado: order=16816, delivery_note=15747
+2026-06-03 08:21:52,471 [INFO] root: Auto-Terminado: order=16928, delivery_note=15746
+2026-06-03 08:21:52,471 [INFO] root: Auto-Terminado: order=16929, delivery_note=15745
+2026-06-03 08:21:52,472 [INFO] root: Auto-Terminado: order=16927, delivery_note=15744
+2026-06-03 08:21:52,472 [INFO] root: Auto-Terminado: order=16932, delivery_note=15743
+2026-06-03 08:21:52,473 [INFO] root: Auto-Terminado: order=16933, delivery_note=15742
+2026-06-03 08:21:52,473 [INFO] root: Auto-Terminado: order=16887, delivery_note=15741
+2026-06-03 08:21:52,473 [INFO] root: Auto-Terminado: order=16926, delivery_note=15740
+2026-06-03 08:21:52,474 [INFO] root: Auto-Terminado: order=16925, delivery_note=15739
+2026-06-03 08:21:52,474 [INFO] root: Auto-Terminado: order=16910, delivery_note=15738
+2026-06-03 08:21:52,475 [INFO] root: Auto-Terminado: order=16918, delivery_note=15737
+2026-06-03 08:21:52,475 [INFO] root: Auto-Terminado: order=16917, delivery_note=15736
+2026-06-03 08:21:52,475 [INFO] root: Auto-Terminado: order=16913, delivery_note=15735
+2026-06-03 08:21:52,476 [INFO] root: Auto-Terminado: order=16886, delivery_note=15734
+2026-06-03 08:21:52,476 [INFO] root: Auto-Terminado: order=16914, delivery_note=15733
+2026-06-03 08:21:52,476 [INFO] root: Auto-Terminado: order=16883, delivery_note=15732
+2026-06-03 08:21:52,477 [INFO] root: Auto-Terminado: order=16908, delivery_note=15731
+2026-06-03 08:21:52,477 [INFO] root: Auto-Terminado: order=16884, delivery_note=15730
+2026-06-03 08:21:52,478 [INFO] root: Auto-Terminado: order=16916, delivery_note=15729
+2026-06-03 08:21:52,478 [INFO] root: Auto-Terminado: order=16906, delivery_note=15726
+2026-06-03 08:21:52,478 [INFO] root: Auto-Terminado: order=16911, delivery_note=15725
+2026-06-03 08:21:52,479 [INFO] root: Auto-Terminado: order=16909, delivery_note=15724
+2026-06-03 08:21:52,479 [INFO] root: Auto-Terminado: order=16882, delivery_note=15723
+2026-06-03 08:21:52,479 [INFO] root: Auto-Terminado: order=16901, delivery_note=15722
+2026-06-03 08:21:52,480 [INFO] root: Auto-Terminado: order=16881, delivery_note=15721
+2026-06-03 08:21:52,521 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:52,523 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:52,523 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:52] "[32mGET /orders/api/seller/orders?_=1780496512519 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:52,524 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:52] "[32mGET /orders/api/seller/orders?_=1780496512520 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:52,526 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:52,528 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:52] "[32mGET /orders/api/seller/orders?_=1780496512522 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:52,529 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:52,531 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:52] "[32mGET /orders/api/seller/orders?_=1780496512523 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:52,700 [INFO] root: Auto-Facturacion: order=16901, invoice=16416
+2026-06-03 08:21:52,701 [INFO] root: Auto-Facturacion: order=16907, invoice=16417
+2026-06-03 08:21:52,701 [INFO] root: Auto-Facturacion: order=16909, invoice=16418
+2026-06-03 08:21:52,702 [INFO] root: Auto-Facturacion: order=16882, invoice=16419
+2026-06-03 08:21:52,702 [INFO] root: Auto-Facturacion: order=16881, invoice=16420
+2026-06-03 08:21:52,702 [INFO] root: Auto-Facturacion: order=16906, invoice=16421
+2026-06-03 08:21:52,703 [INFO] root: Auto-Facturacion: order=16916, invoice=16422
+2026-06-03 08:21:52,703 [INFO] root: Auto-Facturacion: order=16908, invoice=16423
+2026-06-03 08:21:52,704 [INFO] root: Auto-Facturacion: order=16917, invoice=16425
+2026-06-03 08:21:52,704 [INFO] root: Auto-Facturacion: order=16913, invoice=16426
+2026-06-03 08:21:52,704 [INFO] root: Auto-Facturacion: order=16914, invoice=16427
+2026-06-03 08:21:52,705 [INFO] root: Auto-Facturacion: order=16886, invoice=16428
+2026-06-03 08:21:52,705 [INFO] root: Auto-Facturacion: order=16918, invoice=16429
+2026-06-03 08:21:52,706 [INFO] root: Auto-Facturacion: order=16883, invoice=16430
+2026-06-03 08:21:52,706 [INFO] root: Auto-Facturacion: order=16895, invoice=16431
+2026-06-03 08:21:52,707 [INFO] root: Auto-Facturacion: order=16926, invoice=16432
+2026-06-03 08:21:52,707 [INFO] root: Auto-Facturacion: order=16932, invoice=16433
+2026-06-03 08:21:52,707 [INFO] root: Auto-Facturacion: order=16887, invoice=16434
+2026-06-03 08:21:52,708 [INFO] root: Auto-Facturacion: order=16910, invoice=16436
+2026-06-03 08:21:52,708 [INFO] root: Auto-Facturacion: order=16933, invoice=16437
+2026-06-03 08:21:52,709 [INFO] root: Auto-Facturacion: order=16927, invoice=16438
+2026-06-03 08:21:52,709 [INFO] root: Auto-Facturacion: order=16928, invoice=16439
+2026-06-03 08:21:52,710 [INFO] root: Auto-Facturacion: order=16930, invoice=16440
+2026-06-03 08:21:52,710 [INFO] root: Auto-Facturacion: order=16922, invoice=16441
+2026-06-03 08:21:52,711 [INFO] root: Auto-Facturacion: order=16931, invoice=16442
+2026-06-03 08:21:52,711 [INFO] root: Auto-Facturacion: order=16925, invoice=16443
+2026-06-03 08:21:52,711 [INFO] root: Auto-Facturacion: order=16919, invoice=16444
+2026-06-03 08:21:52,712 [INFO] root: Auto-Facturacion: order=16816, invoice=16445
+2026-06-03 08:21:52,712 [INFO] root: Auto-Facturacion: order=16898, invoice=16446
+2026-06-03 08:21:52,713 [INFO] root: Auto-Facturacion: order=16935, invoice=16447
+2026-06-03 08:21:52,713 [INFO] root: Auto-Facturacion: order=16884, invoice=16448
+2026-06-03 08:21:52,714 [INFO] root: Auto-Facturacion: order=16936, invoice=16449
+2026-06-03 08:21:52,714 [INFO] root: Auto-Facturacion: order=16921, invoice=16450
+2026-06-03 08:21:52,714 [INFO] root: Auto-Facturacion: order=16923, invoice=16451
+2026-06-03 08:21:52,715 [INFO] root: Auto-Facturacion: order=16924, invoice=16452
+2026-06-03 08:21:52,715 [INFO] root: Auto-Facturacion: order=16940, invoice=16453
+2026-06-03 08:21:52,715 [INFO] root: Auto-Facturacion: order=16941, invoice=16454
+2026-06-03 08:21:52,716 [INFO] root: Auto-Facturacion: order=16813, invoice=16455
+2026-06-03 08:21:52,716 [INFO] root: Auto-Facturacion: order=16889, invoice=16456
+2026-06-03 08:21:53,699 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,701 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,702 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512526 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,703 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512529 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,704 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,705 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,706 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512532 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,707 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512535 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,708 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,711 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,712 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512536 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,714 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512537 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,715 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,717 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,718 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512537 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,719 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512539 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,720 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,722 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,723 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512540 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,725 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,726 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512541 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,729 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,728 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512543 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,731 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512544 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,732 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,734 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512545 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,735 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,737 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,738 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512545 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,740 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512546 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,741 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,742 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,743 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512547 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,743 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512550 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,745 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,747 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512552 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,748 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,751 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,752 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512556 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,753 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512558 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,755 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,757 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,758 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512561 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,760 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,760 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512564 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,761 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512596 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,762 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,765 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,766 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512598 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,767 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512599 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,769 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,771 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512601 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,774 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,772 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,776 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,776 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512635 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,780 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512637 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,777 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512602 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,779 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,782 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512638 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,786 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,788 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512639 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,789 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,791 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,792 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512640 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,793 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512679 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,794 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,798 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,798 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512681 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,799 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512682 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,800 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,802 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,803 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512684 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,805 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,804 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512685 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,808 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512686 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,809 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,811 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,812 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512687 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,812 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512688 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,815 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,816 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512690 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,818 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,822 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512692 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,824 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,826 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512693 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,827 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,829 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,830 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512695 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,832 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,833 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512749 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,836 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512784 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,835 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,838 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,839 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512803 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,840 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512856 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,842 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,845 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,849 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512858 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,852 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,853 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512861 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,857 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512863 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,856 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,860 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512866 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,863 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,865 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512916 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,868 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,870 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512938 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,872 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,875 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,876 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512940 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,877 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512943 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,878 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,881 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,883 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512946 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,884 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496512999 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,885 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,889 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,890 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513002 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,890 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513004 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,893 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,895 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513031 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,896 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,898 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513108 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,900 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,902 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513109 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,904 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,906 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513111 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,907 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,908 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513123 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,909 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,912 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,913 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513125 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,917 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,917 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513127 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,918 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513129 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,920 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,922 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513130 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,923 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,924 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513132 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,928 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,930 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,931 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513194 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,934 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,934 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513196 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,936 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,936 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513201 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,938 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513203 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,940 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,942 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513206 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,944 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,946 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513208 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,947 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,949 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,951 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513216 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,954 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,954 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513272 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,956 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513276 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,958 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,960 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,960 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513278 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,962 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513281 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,963 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,966 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,967 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513328 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,969 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513329 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,970 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,973 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,973 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513331 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,975 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513332 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,976 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,979 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,982 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513333 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,981 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,984 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513335 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,985 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,986 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513336 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,988 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,988 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513337 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,990 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513338 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,991 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,994 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:53,996 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513348 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,997 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:53] "[32mGET /orders/api/seller/orders?_=1780496513349 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:53,998 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,001 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,001 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513351 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,002 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513404 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,004 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,007 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,007 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513407 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,009 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513423 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,010 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,011 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513425 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,012 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,015 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,015 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513426 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,017 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513427 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,018 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,020 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,022 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513428 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,023 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513430 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,025 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,027 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513431 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,028 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,030 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,032 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513433 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,034 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513435 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,033 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,037 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,038 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513483 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,039 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513486 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,041 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,044 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513490 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,045 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,047 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,049 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513493 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,051 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513495 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,051 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,053 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,054 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513498 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,056 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,055 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513507 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,058 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,059 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513511 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,062 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,064 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513573 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,066 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,067 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513580 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,068 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513582 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,069 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,072 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,077 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513584 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,079 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513587 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,080 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,082 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,083 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513590 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,084 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513591 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,086 [INFO] open_oms.requests: GET /orders/api/seller/orders → 302 (0.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,090 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "[32mGET /orders/api/seller/orders?_=1780496513694 HTTP/1.1[0m" 302 -
+2026-06-03 08:21:54,091 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,094 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512519 HTTP/1.1" 200 -
+2026-06-03 08:21:54,094 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,097 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512520 HTTP/1.1" 200 -
+2026-06-03 08:21:54,097 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,100 [INFO] open_oms.requests: GET /login → 200 (1.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,101 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512522 HTTP/1.1" 200 -
+2026-06-03 08:21:54,103 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512523 HTTP/1.1" 200 -
+2026-06-03 08:21:54,104 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,106 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512526 HTTP/1.1" 200 -
+2026-06-03 08:21:54,107 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,109 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512529 HTTP/1.1" 200 -
+2026-06-03 08:21:54,110 [INFO] open_oms.requests: GET /login → 200 (1.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,115 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512532 HTTP/1.1" 200 -
+2026-06-03 08:21:54,115 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,118 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,121 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,120 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512535 HTTP/1.1" 200 -
+2026-06-03 08:21:54,122 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512536 HTTP/1.1" 200 -
+2026-06-03 08:21:54,123 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512537 HTTP/1.1" 200 -
+2026-06-03 08:21:54,124 [INFO] open_oms.requests: GET /login → 200 (0.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,125 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512537 HTTP/1.1" 200 -
+2026-06-03 08:21:54,128 [INFO] open_oms.requests: GET /login → 200 (0.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,129 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512539 HTTP/1.1" 200 -
+2026-06-03 08:21:54,133 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,135 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512540 HTTP/1.1" 200 -
+2026-06-03 08:21:54,137 [INFO] open_oms.requests: GET /login → 200 (1.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,139 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,140 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512541 HTTP/1.1" 200 -
+2026-06-03 08:21:54,143 [INFO] open_oms.requests: GET /login → 200 (0.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,144 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512543 HTTP/1.1" 200 -
+2026-06-03 08:21:54,146 [INFO] open_oms.requests: GET /login → 200 (0.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,146 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512544 HTTP/1.1" 200 -
+2026-06-03 08:21:54,148 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512545 HTTP/1.1" 200 -
+2026-06-03 08:21:54,151 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,155 [INFO] open_oms.requests: GET /login → 200 (3.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,158 [INFO] open_oms.requests: GET /login → 200 (3.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,156 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512545 HTTP/1.1" 200 -
+2026-06-03 08:21:54,160 [INFO] open_oms.requests: GET /login → 200 (0.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,160 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512547 HTTP/1.1" 200 -
+2026-06-03 08:21:54,161 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512550 HTTP/1.1" 200 -
+2026-06-03 08:21:54,159 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512546 HTTP/1.1" 200 -
+2026-06-03 08:21:54,164 [INFO] open_oms.requests: GET /login → 200 (0.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,165 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512552 HTTP/1.1" 200 -
+2026-06-03 08:21:54,168 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,171 [INFO] open_oms.requests: GET /login → 200 (1.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,171 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512556 HTTP/1.1" 200 -
+2026-06-03 08:21:54,173 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512558 HTTP/1.1" 200 -
+2026-06-03 08:21:54,174 [INFO] open_oms.requests: GET /login → 200 (1.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,176 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,179 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512561 HTTP/1.1" 200 -
+2026-06-03 08:21:54,180 [INFO] open_oms.requests: GET /login → 200 (2.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,181 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512564 HTTP/1.1" 200 -
+2026-06-03 08:21:54,183 [INFO] open_oms.requests: GET /login → 200 (1.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,184 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512596 HTTP/1.1" 200 -
+2026-06-03 08:21:54,185 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512598 HTTP/1.1" 200 -
+2026-06-03 08:21:54,187 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,190 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512599 HTTP/1.1" 200 -
+2026-06-03 08:21:54,191 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,196 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512601 HTTP/1.1" 200 -
+2026-06-03 08:21:54,196 [INFO] open_oms.requests: GET /login → 200 (2.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,200 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,201 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512635 HTTP/1.1" 200 -
+2026-06-03 08:21:54,202 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,202 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512637 HTTP/1.1" 200 -
+2026-06-03 08:21:54,205 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512602 HTTP/1.1" 200 -
+2026-06-03 08:21:54,204 [INFO] open_oms.requests: GET /login → 200 (1.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,208 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512638 HTTP/1.1" 200 -
+2026-06-03 08:21:54,209 [INFO] open_oms.requests: GET /login → 200 (1.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,212 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512639 HTTP/1.1" 200 -
+2026-06-03 08:21:54,212 [INFO] open_oms.requests: GET /login → 200 (2.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,215 [INFO] open_oms.requests: GET /login → 200 (0.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,216 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512640 HTTP/1.1" 200 -
+2026-06-03 08:21:54,218 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512679 HTTP/1.1" 200 -
+2026-06-03 08:21:54,218 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,223 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,224 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512681 HTTP/1.1" 200 -
+2026-06-03 08:21:54,227 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512682 HTTP/1.1" 200 -
+2026-06-03 08:21:54,227 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,229 [INFO] open_oms.requests: GET /login → 200 (0.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,230 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512684 HTTP/1.1" 200 -
+2026-06-03 08:21:54,231 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512685 HTTP/1.1" 200 -
+2026-06-03 08:21:54,234 [INFO] open_oms.requests: GET /login → 200 (2.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,236 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512686 HTTP/1.1" 200 -
+2026-06-03 08:21:54,237 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,239 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512687 HTTP/1.1" 200 -
+2026-06-03 08:21:54,241 [INFO] open_oms.requests: GET /login → 200 (2.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,242 [INFO] open_oms.requests: GET /login → 200 (1.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,243 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512688 HTTP/1.1" 200 -
+2026-06-03 08:21:54,246 [INFO] open_oms.requests: GET /login → 200 (2.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,247 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512690 HTTP/1.1" 200 -
+2026-06-03 08:21:54,249 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512692 HTTP/1.1" 200 -
+2026-06-03 08:21:54,251 [INFO] open_oms.requests: GET /login → 200 (2.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,253 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512693 HTTP/1.1" 200 -
+2026-06-03 08:21:54,254 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,257 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512695 HTTP/1.1" 200 -
+2026-06-03 08:21:54,258 [INFO] open_oms.requests: GET /login → 200 (1.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,262 [INFO] open_oms.requests: GET /login → 200 (1.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,262 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512749 HTTP/1.1" 200 -
+2026-06-03 08:21:54,265 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,264 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512784 HTTP/1.1" 200 -
+2026-06-03 08:21:54,267 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512803 HTTP/1.1" 200 -
+2026-06-03 08:21:54,268 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,270 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512856 HTTP/1.1" 200 -
+2026-06-03 08:21:54,272 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,275 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512858 HTTP/1.1" 200 -
+2026-06-03 08:21:54,276 [INFO] open_oms.requests: GET /login → 200 (2.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,279 [INFO] open_oms.requests: GET /login → 200 (2.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,280 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512861 HTTP/1.1" 200 -
+2026-06-03 08:21:54,282 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512863 HTTP/1.1" 200 -
+2026-06-03 08:21:54,283 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,286 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512866 HTTP/1.1" 200 -
+2026-06-03 08:21:54,287 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,291 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512916 HTTP/1.1" 200 -
+2026-06-03 08:21:54,292 [INFO] open_oms.requests: GET /login → 200 (2.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,294 [INFO] open_oms.requests: GET /login → 200 (1.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,294 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512938 HTTP/1.1" 200 -
+2026-06-03 08:21:54,296 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512940 HTTP/1.1" 200 -
+2026-06-03 08:21:54,298 [INFO] open_oms.requests: GET /login → 200 (0.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,303 [INFO] open_oms.requests: GET /login → 200 (2.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,304 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512943 HTTP/1.1" 200 -
+2026-06-03 08:21:54,306 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,307 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512946 HTTP/1.1" 200 -
+2026-06-03 08:21:54,309 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496512999 HTTP/1.1" 200 -
+2026-06-03 08:21:54,309 [INFO] open_oms.requests: GET /login → 200 (0.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,311 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513002 HTTP/1.1" 200 -
+2026-06-03 08:21:54,314 [INFO] open_oms.requests: GET /login → 200 (1.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,318 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,318 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513004 HTTP/1.1" 200 -
+2026-06-03 08:21:54,321 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513031 HTTP/1.1" 200 -
+2026-06-03 08:21:54,323 [INFO] open_oms.requests: GET /login → 200 (2.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,325 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,327 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513108 HTTP/1.1" 200 -
+2026-06-03 08:21:54,330 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,330 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513109 HTTP/1.1" 200 -
+2026-06-03 08:21:54,333 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,333 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513111 HTTP/1.1" 200 -
+2026-06-03 08:21:54,335 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513123 HTTP/1.1" 200 -
+2026-06-03 08:21:54,337 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,341 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513125 HTTP/1.1" 200 -
+2026-06-03 08:21:54,341 [INFO] open_oms.requests: GET /login → 200 (2.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,346 [INFO] open_oms.requests: GET /login → 200 (2.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,347 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513127 HTTP/1.1" 200 -
+2026-06-03 08:21:54,347 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,349 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513129 HTTP/1.1" 200 -
+2026-06-03 08:21:54,351 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513130 HTTP/1.1" 200 -
+2026-06-03 08:21:54,350 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,354 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513132 HTTP/1.1" 200 -
+2026-06-03 08:21:54,357 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,360 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513194 HTTP/1.1" 200 -
+2026-06-03 08:21:54,361 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,363 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513196 HTTP/1.1" 200 -
+2026-06-03 08:21:54,364 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,367 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513201 HTTP/1.1" 200 -
+2026-06-03 08:21:54,368 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,372 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513203 HTTP/1.1" 200 -
+2026-06-03 08:21:54,374 [INFO] open_oms.requests: GET /login → 200 (2.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,375 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,376 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513206 HTTP/1.1" 200 -
+2026-06-03 08:21:54,378 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513208 HTTP/1.1" 200 -
+2026-06-03 08:21:54,379 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,381 [INFO] open_oms.requests: GET /login → 200 (1.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,382 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513216 HTTP/1.1" 200 -
+2026-06-03 08:21:54,384 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513272 HTTP/1.1" 200 -
+2026-06-03 08:21:54,388 [INFO] open_oms.requests: GET /login → 200 (2.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,391 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513276 HTTP/1.1" 200 -
+2026-06-03 08:21:54,392 [INFO] open_oms.requests: GET /login → 200 (2.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,395 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,396 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513278 HTTP/1.1" 200 -
+2026-06-03 08:21:54,399 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,398 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513281 HTTP/1.1" 200 -
+2026-06-03 08:21:54,401 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513328 HTTP/1.1" 200 -
+2026-06-03 08:21:54,402 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,406 [INFO] open_oms.requests: GET /login → 200 (1.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,406 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513329 HTTP/1.1" 200 -
+2026-06-03 08:21:54,409 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513331 HTTP/1.1" 200 -
+2026-06-03 08:21:54,409 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,411 [INFO] open_oms.requests: GET /login → 200 (1.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,413 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513332 HTTP/1.1" 200 -
+2026-06-03 08:21:54,414 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513333 HTTP/1.1" 200 -
+2026-06-03 08:21:54,416 [INFO] open_oms.requests: GET /login → 200 (1.7ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,418 [INFO] open_oms.requests: GET /login → 200 (0.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,419 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513335 HTTP/1.1" 200 -
+2026-06-03 08:21:54,421 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513336 HTTP/1.1" 200 -
+2026-06-03 08:21:54,426 [INFO] open_oms.requests: GET /login → 200 (3.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,428 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,430 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513337 HTTP/1.1" 200 -
+2026-06-03 08:21:54,431 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513338 HTTP/1.1" 200 -
+2026-06-03 08:21:54,432 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,436 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,437 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513348 HTTP/1.1" 200 -
+2026-06-03 08:21:54,439 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513349 HTTP/1.1" 200 -
+2026-06-03 08:21:54,440 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,443 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,443 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513351 HTTP/1.1" 200 -
+2026-06-03 08:21:54,447 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513404 HTTP/1.1" 200 -
+2026-06-03 08:21:54,448 [INFO] open_oms.requests: GET /login → 200 (2.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,452 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513407 HTTP/1.1" 200 -
+2026-06-03 08:21:54,452 [INFO] open_oms.requests: GET /login → 200 (2.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,455 [INFO] open_oms.requests: GET /login → 200 (1.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,456 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513423 HTTP/1.1" 200 -
+2026-06-03 08:21:54,459 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513425 HTTP/1.1" 200 -
+2026-06-03 08:21:54,459 [INFO] open_oms.requests: GET /login → 200 (2.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,462 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,462 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513426 HTTP/1.1" 200 -
+2026-06-03 08:21:54,463 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513427 HTTP/1.1" 200 -
+2026-06-03 08:21:54,467 [INFO] open_oms.requests: GET /login → 200 (1.8ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,470 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513428 HTTP/1.1" 200 -
+2026-06-03 08:21:54,471 [INFO] open_oms.requests: GET /login → 200 (1.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,474 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,475 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513430 HTTP/1.1" 200 -
+2026-06-03 08:21:54,477 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513431 HTTP/1.1" 200 -
+2026-06-03 08:21:54,477 [INFO] open_oms.requests: GET /login → 200 (2.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,479 [INFO] open_oms.requests: GET /login → 200 (1.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,480 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513433 HTTP/1.1" 200 -
+2026-06-03 08:21:54,481 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513435 HTTP/1.1" 200 -
+2026-06-03 08:21:54,484 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,488 [INFO] open_oms.requests: GET /login → 200 (2.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,489 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513483 HTTP/1.1" 200 -
+2026-06-03 08:21:54,492 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,491 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513486 HTTP/1.1" 200 -
+2026-06-03 08:21:54,495 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,494 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513490 HTTP/1.1" 200 -
+2026-06-03 08:21:54,499 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,496 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513493 HTTP/1.1" 200 -
+2026-06-03 08:21:54,501 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513495 HTTP/1.1" 200 -
+2026-06-03 08:21:54,503 [INFO] open_oms.requests: GET /login → 200 (1.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,507 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513498 HTTP/1.1" 200 -
+2026-06-03 08:21:54,507 [INFO] open_oms.requests: GET /login → 200 (1.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,512 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513507 HTTP/1.1" 200 -
+2026-06-03 08:21:54,513 [INFO] open_oms.requests: GET /login → 200 (3.0ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,516 [INFO] open_oms.requests: GET /login → 200 (1.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,517 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513511 HTTP/1.1" 200 -
+2026-06-03 08:21:54,520 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513573 HTTP/1.1" 200 -
+2026-06-03 08:21:54,522 [INFO] open_oms.requests: GET /login → 200 (2.5ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,524 [INFO] open_oms.requests: GET /login → 200 (1.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,526 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513580 HTTP/1.1" 200 -
+2026-06-03 08:21:54,530 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513582 HTTP/1.1" 200 -
+2026-06-03 08:21:54,534 [INFO] open_oms.requests: GET /login → 200 (5.4ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,535 [INFO] open_oms.requests: GET /login → 200 (3.1ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,539 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513584 HTTP/1.1" 200 -
+2026-06-03 08:21:54,539 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513587 HTTP/1.1" 200 -
+2026-06-03 08:21:54,542 [INFO] open_oms.requests: GET /login → 200 (3.9ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,543 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,545 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513590 HTTP/1.1" 200 -
+2026-06-03 08:21:54,547 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513591 HTTP/1.1" 200 -
+2026-06-03 08:21:54,548 [INFO] open_oms.requests: GET /login → 200 (1.2ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 08:21:54,549 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 08:21:54] "GET /login?next=/orders/api/seller/orders?_%3D1780496513694 HTTP/1.1" 200 -
+2026-06-03 08:22:48,220 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:22:48,517 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:22:52,802 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:22:53,103 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:23:58,838 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:23:59,134 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:24:00,914 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:24:01,210 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:25:02,059 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:25:02,356 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:25:06,310 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:25:06,605 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:26:05,255 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:26:05,550 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:26:09,514 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:26:09,810 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:27:08,393 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:27:08,690 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:27:14,402 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:27:14,697 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:28:17,998 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:28:18,295 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:28:21,529 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:28:21,826 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:29:22,259 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:29:22,558 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:29:27,284 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:29:27,595 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:30:25,362 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:30:25,659 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:30:30,286 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:30:30,581 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:31:28,387 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:31:28,683 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:31:33,251 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:31:33,546 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:32:31,388 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:32:31,683 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:32:36,203 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:32:36,498 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:33:34,334 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:33:34,629 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:33:39,216 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:33:39,512 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:34:37,374 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:34:37,669 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:34:42,171 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:34:42,468 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:35:40,437 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:35:40,732 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:35:45,147 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:35:45,490 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:36:43,458 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:36:43,753 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:36:48,215 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:36:48,542 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:37:46,421 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:37:46,717 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:37:51,294 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:37:51,604 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:38:49,520 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:38:49,815 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:38:54,367 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:38:54,683 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:39:52,523 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:39:52,818 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:39:57,414 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:39:57,709 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:40:55,627 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:40:55,924 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:41:00,492 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:41:00,795 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:41:58,647 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:41:58,942 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:42:03,464 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:42:03,760 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:43:01,698 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:43:01,994 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:43:06,443 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:43:06,739 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:44:04,651 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:44:04,946 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:44:09,384 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:44:09,685 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:45:07,640 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:45:07,935 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:45:12,445 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:45:12,801 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:46:10,649 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:46:10,945 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:46:15,910 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:46:16,206 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:47:13,663 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:47:13,981 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:47:19,170 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:47:19,465 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:48:16,666 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:48:16,961 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:48:22,138 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:48:22,435 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:49:19,814 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:49:20,109 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:49:22,615 [INFO] root: Auto-Terminado: order=16945, delivery_note=15763
+2026-06-03 08:49:25,144 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:49:25,440 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:49:27,882 [INFO] root: Auto-Terminado: order=16945, delivery_note=15763
+2026-06-03 08:50:22,906 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:50:23,202 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:50:28,117 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:50:28,413 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:51:25,910 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:51:26,403 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:51:31,217 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:51:31,512 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:52:29,484 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:52:29,780 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:52:34,173 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:52:34,468 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:53:32,448 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:53:32,743 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:53:35,397 [INFO] root: Auto-Facturacion: order=16945, invoice=16457
+2026-06-03 08:53:37,427 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:53:37,722 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:53:40,329 [INFO] root: Auto-Facturacion: order=16945, invoice=16457
+2026-06-03 08:54:35,470 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:54:35,776 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:54:40,414 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:54:40,718 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:55:39,517 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:55:39,816 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:55:44,148 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:55:44,472 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:56:43,115 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:56:43,413 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:56:48,318 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:56:48,617 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:57:46,199 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:57:46,495 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:57:51,806 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:57:52,103 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:58:49,301 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:58:49,597 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:58:54,927 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:58:55,225 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:59:52,509 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:59:52,827 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 08:59:58,049 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 08:59:58,347 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:00:55,754 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:00:56,051 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:01:01,132 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:01:01,447 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:01:58,954 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:01:59,249 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:02:04,127 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:02:04,450 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:03:02,193 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:03:02,491 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:03:07,241 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:03:07,537 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:04:05,189 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:04:05,484 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:04:10,235 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:04:10,532 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:05:08,200 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:05:08,497 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:05:13,245 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:05:13,541 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:06:11,231 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:06:11,526 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:06:16,429 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:06:16,725 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:07:14,360 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:07:14,656 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:07:18,843 [INFO] root: SGA label-printed: order=16943, station=Almacen1, Pendiente -> En Proceso
+2026-06-03 09:07:18,844 [INFO] open_oms.requests: POST /orders/api/sga/label-printed → 200 (3677.7ms) [user=anonymous, ip=192.168.2.218]
+2026-06-03 09:07:18,844 [INFO] werkzeug: 192.168.2.218 - - [03/Jun/2026 09:07:18] "POST /orders/api/sga/label-printed HTTP/1.1" 200 -
+2026-06-03 09:07:19,523 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:07:19,819 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:07:21,097 [INFO] root: SGA label-printed: order=16943, station=Almacen1, En Proceso -> En Proceso
+2026-06-03 09:07:21,097 [INFO] open_oms.requests: POST /orders/api/sga/label-printed → 200 (2567.9ms) [user=anonymous, ip=192.168.2.218]
+2026-06-03 09:07:21,098 [INFO] werkzeug: 192.168.2.218 - - [03/Jun/2026 09:07:21] "POST /orders/api/sga/label-printed HTTP/1.1" 200 -
+2026-06-03 09:08:17,495 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:08:17,791 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:08:20,705 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:08:21,001 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully
+2026-06-03 09:08:22,091 [INFO] root: SGA label-printed: order=16944, station=Almacen1, Pendiente -> En Proceso
+2026-06-03 09:08:22,092 [INFO] open_oms.requests: POST /orders/api/sga/label-printed → 200 (3236.1ms) [user=anonymous, ip=192.168.2.218]
+2026-06-03 09:08:22,093 [INFO] werkzeug: 192.168.2.218 - - [03/Jun/2026 09:08:22] "POST /orders/api/sga/label-printed HTTP/1.1" 200 -
+2026-06-03 09:08:24,029 [INFO] root: SGA label-printed: order=16944, station=Almacen1, En Proceso -> En Proceso
+2026-06-03 09:08:24,030 [INFO] open_oms.requests: POST /orders/api/sga/label-printed → 200 (2896.7ms) [user=anonymous, ip=192.168.2.218]
+2026-06-03 09:08:24,031 [INFO] werkzeug: 192.168.2.218 - - [03/Jun/2026 09:08:24] "POST /orders/api/sga/label-printed HTTP/1.1" 200 -
+2026-06-03 09:09:20,694 [INFO] core.sap_connector: Connecting to SAP HANA at 20.0.1.9:30015...
+2026-06-03 09:09:20,996 [INFO] core.sap_connector: ✅ SAP HANA connection established successfully

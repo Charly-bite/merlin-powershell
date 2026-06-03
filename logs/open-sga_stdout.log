@@ -1,0 +1,42 @@
+2026-06-03 08:21:41,015 [INFO] root: [CONFIG] SQL engine detected — skipping SMB path resolution
+✅ SAP connector available (hdbcli installed)
+🔒 SAP Dev Throttle wrapper loaded (1 conn, 2s cooldown)
+2026-06-03 08:21:41,357 [INFO] database_client: Loaded client configuration
+2026-06-03 08:21:41,358 [INFO] database_client: ============================================================
+2026-06-03 08:21:41,358 [INFO] database_client: Iniciando conexion a base de datos...
+2026-06-03 08:21:41,387 [INFO] database_client: Intentando conexion a SQL Server...
+2026-06-03 08:21:42,178 [INFO] database_client: Conectado exitosamente a SQL Server
+[OK] Conectado a base de datos (sql)
+Connected to SQL: loaded 120 H-defs, 225 P-defs, 1174 products.
+✅ GHSLabelGenerator cached at startup
+2026-06-03 08:21:47,813 [INFO] tara_weight_manager: ✅ Loaded 1175 product classifications from SQL
+✅ TaraWeightManager initialized
+✅ CLASIFICACION.xlsx imported: 444 products, 82 tara overrides
+2026-06-03 08:22:02,203 [INFO] tara_weight_manager: ✅ Loaded 438 product classifications from CLASIFICACION.xlsx
+2026-06-03 08:22:10,805 [INFO] tara_weight_manager: ✅ Saved 1175 product classifications to JSON (Atomic Save)
+2026-06-03 08:22:38,644 [INFO] tara_weight_manager: ✅ Saved classifications to SQL (UPSERT Mode)
+2026-06-03 08:22:39,608 [INFO] tara_weight_manager: ✅ Saved 1184 batch records to product_batches SQL table (UPSERT mode)
+2026-06-03 08:22:41,920 [INFO] tara_weight_manager: ✅ Saved 779 lote history records to product_lote_history SQL table (UPSERT mode)
+2026-06-03 08:22:41,934 [INFO] routes.control_interno: [RECOVER] Recovered stale lote fields from history overrides (startup)
+2026-06-03 08:22:50,131 [INFO] tara_weight_manager: ✅ Saved 1175 product classifications to JSON (Atomic Save)
+2026-06-03 08:23:14,121 [INFO] tara_weight_manager: ✅ Saved classifications to SQL (UPSERT Mode)
+2026-06-03 08:23:14,844 [INFO] tara_weight_manager: ✅ Saved 1184 batch records to product_batches SQL table (UPSERT mode)
+2026-06-03 08:23:16,101 [INFO] tara_weight_manager: ✅ Saved 779 lote history records to product_lote_history SQL table (UPSERT mode)
+✅ Control Interno ready (74.2s startup)
+2026-06-03 08:23:16,111 [INFO] sap_dev_wrapper: [DEV-SAP] Throttle wrapper active: max_concurrent=1, cooldown=2.0s, idle_timeout=60s
+✅ SAP Connector initialized (DEV THROTTLED mode)
+✅ Poppler found at C:\Users\CarlosAlbertoAcevesC\Desktop\SGA DEV\poppler-24.08.0\Library\bin
+2026-06-03 08:23:16,144 [INFO] root: Starting SGA Developer Server...
+ * Serving Flask app 'app'
+ * Debug mode: on
+2026-06-03 08:23:17,625 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://192.168.1.96:5004
+2026-06-03 08:23:17,626 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-06-03 09:29:35,602 [INFO] sga.requests: GET / -> 200 (19.3ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 09:29:35,604 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 09:29:35] "GET / HTTP/1.1" 200 -
+2026-06-03 09:29:35,666 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 09:29:35] "[36mGET /static/css/tailwind.css HTTP/1.1[0m" 304 -
+2026-06-03 09:32:32,264 [INFO] sga.requests: GET / -> 200 (0.6ms) [user=anonymous, ip=192.168.2.172]
+2026-06-03 09:32:32,265 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 09:32:32] "GET / HTTP/1.1" 200 -
+2026-06-03 09:32:32,292 [INFO] werkzeug: 192.168.2.172 - - [03/Jun/2026 09:32:32] "[36mGET /static/css/tailwind.css HTTP/1.1[0m" 304 -

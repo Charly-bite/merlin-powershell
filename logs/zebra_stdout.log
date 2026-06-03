@@ -1,0 +1,6 @@
+Starting Zebra Label Editor Server...
+Open http://192.168.2.172:5005 in your browser.
+ * Serving Flask app 'editor_app'
+ * Debug mode: off
+=============================
+
