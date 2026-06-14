@@ -31,3 +31,16 @@ This folder contains a fully cross-platform (Windows & Linux) blueprint of the D
 - **TCP Fallback**: If an SSH query fails, it seamlessly falls back to pinging the specified `port` directly.
 - **Cross-Platform Lifecycle**: Kills processes and all their child-processes perfectly across Windows and Linux (`Get-CimInstance` on Windows, `pgrep` on Linux).
 - **In-Memory Logging**: Captures `stdout` and `stderr` directly into the `logs/` directory.
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to submit pull requests, report issues, and contribute to the project. Please adhere to the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) in all community interactions.
+
+## Security
+
+If you discover any security-related issues, please refer to our [SECURITY.md](SECURITY.md) for the reporting process.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+

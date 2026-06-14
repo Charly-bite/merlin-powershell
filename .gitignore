@@ -1,0 +1,21 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Windows/PowerShell temporary files
+*.tmp
+*.temp
+*~
+*.swp
+*.bak
+
+# Node (in case any project has it)
+node_modules/
+.env
