@@ -1,0 +1,6 @@
+# Ignore logs
+logs/
+*.log
+
+# Ignore workspaces
+*.code-workspace

@@ -206,7 +206,7 @@ function Get-ProjectStatus {
 
 function Refresh-AllStatuses {
     <# Single batch refresh: one port scan, then per-project status. #>
-    param($Projects)
+    param([array]$Projects)
     $portMap = Get-AllListeningPorts
     return @($Projects | ForEach-Object { Get-ProjectStatus -Project $_ -PortMap $portMap })
 }
@@ -251,7 +251,8 @@ function Start-Project {
     try {
         # Normalize forward slashes to backslashes for cmd.exe compatibility
         # (cmd.exe treats / as switch prefix, breaking paths like .venv/Scripts/python.exe)
-        $cmdNormalized = $command.Replace('/', '\')
+        # Restore cmd /c and http(s):// which are broken by the blanket replacement
+        $cmdNormalized = $command.Replace('/', '\').Replace('cmd \c', 'cmd /c').Replace('http:\\', 'http://').Replace('https:\\', 'https://')
 
         # Use cmd.exe /c to launch any command reliably.
         # This handles .cmd (npm), .bat, .exe, .py, etc. natively because
@@ -453,7 +454,7 @@ function Confirm-ProductionAction {
 
 function Kill-AllProjects {
     <# Kills every process on every configured port, including zombies. #>
-    param($Projects)
+    param([array]$Projects)
 
     Write-Host ""
     Write-Host "  +----------------------------------------------------------------------+" -ForegroundColor Red
@@ -620,10 +621,10 @@ function Write-Row {
 }
 
 function Show-Dashboard {
-    param($Statuses, [int]$SelectedIndex = 0, [switch]$InPlace)
+    param([array]$Statuses, [int]$SelectedIndex = 0, [switch]$InPlace)
 
-    $running = ($Statuses | Where-Object { $_.Status -eq "RUNNING" }).Count
-    $stopped = ($Statuses | Where-Object { $_.Status -eq "STOPPED" }).Count
+    $running = @($Statuses | Where-Object { $_.Status -eq "RUNNING" }).Count
+    $stopped = @($Statuses | Where-Object { $_.Status -eq "STOPPED" }).Count
     $total   = $Statuses.Count
     $time    = (Get-Date).ToString("HH:mm:ss")
 
@@ -731,8 +732,12 @@ function Show-Dashboard {
     Write-Host -NoNewline "   " -ForegroundColor DarkGray
     Write-Host -NoNewline "[N]" -ForegroundColor Cyan
     Write-Host -NoNewline " New " -ForegroundColor Gray
+    Write-Host -NoNewline "[E]" -ForegroundColor Cyan
+    Write-Host -NoNewline " Rename " -ForegroundColor Gray
     Write-Host -NoNewline "[D]" -ForegroundColor DarkYellow
     Write-Host -NoNewline " Delete " -ForegroundColor Gray
+    Write-Host -NoNewline "[+/-]" -ForegroundColor Cyan
+    Write-Host -NoNewline " Move " -ForegroundColor Gray
     Write-Host -NoNewline "[X]" -ForegroundColor Magenta
     Write-Host -NoNewline " Kill ALL " -ForegroundColor Gray
     Write-Host "[Q]" -ForegroundColor DarkRed -NoNewline
@@ -1157,7 +1162,7 @@ function Handle-SubScreen {
 
 function Main {
     $config = Load-Config
-    $projects = $config.projects
+    $projects = @($config.projects)
 
     if (-not $projects -or $projects.Count -eq 0) {
         Write-Host "  No projects configured in $ConfigFile" -ForegroundColor Red
@@ -1241,6 +1246,45 @@ function Main {
                     "A" {
                         $statuses = Refresh-AllStatuses -Projects $projects
                         Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx -InPlace
+                    }
+                    "E" {
+                        Write-Host ""
+                        Write-Host "  Rename Project: $($selProject.name)" -ForegroundColor Yellow
+                        Write-Host -NoNewline "  Enter new name (leave empty to cancel): " -ForegroundColor Cyan
+                        $newName = Read-Host
+                        if (-not [string]::IsNullOrWhiteSpace($newName)) {
+                            $config.projects[$selectedIdx].name = $newName.Trim()
+                            Save-Config -Config $config
+                            $projects = @($config.projects)
+                            Write-Host "  Renamed successfully!" -ForegroundColor Green
+                            Start-Sleep -Milliseconds 800
+                        }
+                        $statuses = Refresh-AllStatuses -Projects $projects
+                        Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
+                    }
+                    "+" {
+                        if ($selectedIdx -gt 0) {
+                            $temp = $config.projects[$selectedIdx]
+                            $config.projects[$selectedIdx] = $config.projects[$selectedIdx - 1]
+                            $config.projects[$selectedIdx - 1] = $temp
+                            $selectedIdx--
+                            Save-Config -Config $config
+                            $projects = @($config.projects)
+                            $statuses = Refresh-AllStatuses -Projects $projects
+                            Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx -InPlace
+                        }
+                    }
+                    "-" {
+                        if ($selectedIdx -lt $maxIdx) {
+                            $temp = $config.projects[$selectedIdx]
+                            $config.projects[$selectedIdx] = $config.projects[$selectedIdx + 1]
+                            $config.projects[$selectedIdx + 1] = $temp
+                            $selectedIdx++
+                            Save-Config -Config $config
+                            $projects = @($config.projects)
+                            $statuses = Refresh-AllStatuses -Projects $projects
+                            Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx -InPlace
+                        }
                     }
                     "I" {
                         $portMap = Get-AllListeningPorts
@@ -1365,7 +1409,7 @@ function Main {
                         }
                         $config.projects = $newProjects
                         Save-Config -Config $config
-                        $projects = $config.projects
+                        $projects = @($config.projects)
                         Write-Host "  Project added successfully!" -ForegroundColor Green
                         Start-Sleep -Milliseconds 800
                         $maxIdx = $projects.Count - 1
@@ -1386,7 +1430,7 @@ function Main {
                             $newProjects = @($config.projects | Where-Object { $_.id -ne $selProject.id })
                             $config.projects = $newProjects
                             Save-Config -Config $config
-                            $projects = $config.projects
+                            $projects = @($config.projects)
                             $maxIdx = $projects.Count - 1
                             if ($selectedIdx -gt $maxIdx) { $selectedIdx = $maxIdx }
                             if ($selectedIdx -lt 0) { $selectedIdx = 0 }
