@@ -33,6 +33,29 @@ $RefreshSecs = 4
 
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
 
+# Disable QuickEdit Mode (prevents terminal suspension/freeze on mouse click)
+try {
+    $consoleCode = @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class WinConsole {
+        [DllImport("kernel32.dll")] public static extern IntPtr GetStdHandle(int nStdHandle);
+        [DllImport("kernel32.dll")] public static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+        [DllImport("kernel32.dll")] public static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+    }
+"@
+    if (-not ([System.Management.Automation.PSTypeName]'WinConsole').Type) {
+        Add-Type -TypeDefinition $consoleCode
+    }
+    $hConsoleHandle = [WinConsole]::GetStdHandle(-10) # STD_INPUT_HANDLE = -10
+    [uint32]$consoleMode = 0
+    if ([WinConsole]::GetConsoleMode($hConsoleHandle, [ref]$consoleMode)) {
+        $consoleMode = $consoleMode -band (-not 0x0040) # Disable ENABLE_QUICK_EDIT_MODE (0x0040)
+        $consoleMode = $consoleMode -bor 0x0080         # Enable ENABLE_EXTENDED_FLAGS (0x0080)
+        [void][WinConsole]::SetConsoleMode($hConsoleHandle, $consoleMode)
+    }
+} catch {}
+
 # --- Config Loader -----------------------------------------------------------
 
 function Load-Config {
@@ -123,7 +146,7 @@ function Get-ProjectStatus {
         $sshTarget = "$($Project.ssh.user)@$($Project.ssh.host)"
         $statusCmd = $Project.ssh.status_command
         try {
-            $result = ssh -o ConnectTimeout=2 -o BatchMode=yes $sshTarget $statusCmd 2>$null
+            $result = ssh -o ConnectTimeout=1 -o BatchMode=yes $sshTarget $statusCmd 2>$null
             if ($LASTEXITCODE -eq 0 -and $result) {
                 $status = "RUNNING"
                 $pid_ = ($result -split "`n" | Select-Object -First 1).Trim()
@@ -138,7 +161,7 @@ function Get-ProjectStatus {
                 try {
                     $tcpClient = New-Object System.Net.Sockets.TcpClient
                     $connect = $tcpClient.BeginConnect($targetHost, [int]$port, $null, $null)
-                    $success = $connect.AsyncWaitHandle.WaitOne(800) # 800ms timeout
+                    $success = $connect.AsyncWaitHandle.WaitOne(150) # 150ms timeout (prevents UI freeze)
                     if ($success) {
                         $tcpClient.EndConnect($connect)
                         $status = "RUNNING"
