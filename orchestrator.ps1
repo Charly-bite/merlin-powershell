@@ -26,7 +26,7 @@
 
 # --- Configuration -----------------------------------------------------------
 
-$ScriptDir   = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$ScriptDir   = if ($PSScriptRoot) { $PSScriptRoot } elseif ($MyInvocation.MyCommand.Definition) { Split-Path -Parent $MyInvocation.MyCommand.Definition } else { "C:\Users\CarlosAlbertoAcevesC\Desktop\Orchestrator" }
 $ConfigFile  = Join-Path $ScriptDir "projects.json"
 $LogDir      = Join-Path $ScriptDir "logs"
 $RefreshSecs = 4
