@@ -56,6 +56,25 @@ try {
     }
 } catch {}
 
+# --- Safe Console Input Helpers (Prevents PSReadLine & Redirection Exception Hangs) ---
+
+function Test-KeyAvailable {
+    try {
+        return [Console]::KeyAvailable
+    } catch {
+        return $false
+    }
+}
+
+function Read-ConsoleKey {
+    param([bool]$Intercept = $true)
+    try {
+        return [Console]::ReadKey($Intercept)
+    } catch {
+        return $null
+    }
+}
+
 # --- Config Loader -----------------------------------------------------------
 
 function Load-Config {
@@ -1074,7 +1093,8 @@ function Handle-SubScreen {
 
     while ($true) {
         Write-Host -NoNewline "  > " -ForegroundColor Cyan
-        $key = [Console]::ReadKey($true)
+        $key = Read-ConsoleKey -Intercept $true
+        if ($null -eq $key) { continue }
         $ch = [char]::ToUpper($key.KeyChar)
 
         if ($key.Key -eq "Escape" -or $ch -eq "B") { return }
@@ -1204,7 +1224,7 @@ function Main {
         $keyPressed = $false
 
         while ($stopwatch.Elapsed.TotalSeconds -lt $RefreshSecs) {
-            if ([Console]::KeyAvailable) {
+            if (Test-KeyAvailable) {
                 $keyPressed = $true
                 break
             }
@@ -1235,7 +1255,8 @@ function Main {
             continue
         }
 
-        $key = [Console]::ReadKey($true)
+        $key = Read-ConsoleKey -Intercept $true
+        if ($null -eq $key) { continue }
         $ch = [char]::ToUpper($key.KeyChar)
 
         switch ($key.Key) {
