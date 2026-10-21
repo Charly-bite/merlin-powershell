@@ -24,6 +24,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 CONFIG_FILE = SCRIPT_DIR / "projects.json"
 LOG_DIR = SCRIPT_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+if sys.stdout is None or sys.stderr is None:
+    try:
+        _mw_log = open(LOG_DIR / "merlin_web.log", "a", encoding="utf-8", buffering=1)
+        sys.stdout = _mw_log
+        sys.stderr = _mw_log
+    except Exception:
+        pass
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 9000
 NTFY_TOPIC = os.environ.get("MERLIN_NTFY_TOPIC", "mrdev-merlin-soc")
@@ -69,12 +76,15 @@ TAILSCALE_MAP = {
 NODE_META = {
     "192.168.2.222": {"alias": "office-pc", "label": ".222 (Oficina)", "ts_ip": "100.89.1.27", "lan_ip": "192.168.2.222", "log_dir": r"C:\Users\CarlosAlbertoAcevesC\Desktop\02-plataformas-activas\merlin\logs"},
     "100.89.1.27":   {"alias": "office-pc", "label": ".222 (Oficina)", "ts_ip": "100.89.1.27", "lan_ip": "192.168.2.222", "log_dir": r"C:\Users\CarlosAlbertoAcevesC\Desktop\02-plataformas-activas\merlin\logs"},
-    "192.168.2.218": {"alias": "desarrollo", "label": ".218 (Prod)", "ts_ip": "100.77.199.69", "lan_ip": "192.168.2.218", "log_dir": r"C:\Users\QB_DESARROLLO\Desktop\Merlin\logs"},
-    "100.77.199.69": {"alias": "desarrollo", "label": ".218 (Prod)", "ts_ip": "100.77.199.69", "lan_ip": "192.168.2.218", "log_dir": r"C:\Users\QB_DESARROLLO\Desktop\Merlin\logs"},
+    "192.168.2.218": {"alias": "desarrollo", "label": ".218 (Prod)", "ts_ip": "100.77.199.69", "lan_ip": "192.168.2.218", "log_dir": r"C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\logs"},
+    "100.77.199.69": {"alias": "desarrollo", "label": ".218 (Prod)", "ts_ip": "100.77.199.69", "lan_ip": "192.168.2.218", "log_dir": r"C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\logs"},
     "192.168.2.237": {"alias": "serverwebqb-ts", "label": "WEB-HUB (.237)", "ts_ip": "100.105.210.35", "lan_ip": "192.168.2.237", "log_dir": r"C:\Users\Administrador\.gemini\brain-portal"},
+    "100.105.210.35": {"alias": "serverwebqb-ts", "label": "WEB-HUB (.237)", "ts_ip": "100.105.210.35", "lan_ip": "192.168.2.237", "log_dir": r"C:\Users\Administrador\.gemini\brain-portal"},
     "192.168.2.187": {"alias": "qb-bd-ts", "label": "BD-VAULT (.187)", "ts_ip": "100.102.18.118", "lan_ip": "192.168.2.187", "log_dir": r"C:\Users\Administrador\logs"},
+    "100.102.18.118": {"alias": "qb-bd-ts", "label": "BD-VAULT (.187)", "ts_ip": "100.102.18.118", "lan_ip": "192.168.2.187", "log_dir": r"C:\Users\Administrador\logs"},
     "100.90.211.9":  {"alias": "home", "label": "HOME (.9)", "ts_ip": "100.90.211.9", "lan_ip": "100.90.211.9", "log_dir": r"C:\Users\Admin\Desktop\Merlin\logs"},
-    "100.126.87.126": {"alias": "poco", "label": "POCO (.126)", "ts_ip": "100.126.87.126", "lan_ip": "100.126.87.126", "log_dir": r"C:\Users\QB_DESARROLLO\Desktop\Merlin\logs"},
+    "127.0.0.1":     {"alias": "home", "label": "HOME (.9)", "ts_ip": "100.90.211.9", "lan_ip": "192.168.2.218", "log_dir": r"C:\Users\Admin\Desktop\Merlin\logs"},
+    "100.126.87.126": {"alias": "poco", "label": "POCO (.126)", "ts_ip": "100.126.87.126", "lan_ip": "192.168.2.103", "log_dir": r"C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\logs"},
 }
 
 TAILSCALE_NODES = [
@@ -168,7 +178,7 @@ def check_tcp(host: str, port: int, timeout: float = 0.25) -> tuple[bool, int]:
 
 def load_projects():
     try:
-        raw = CONFIG_FILE.read_text(encoding="utf-8")
+        raw = CONFIG_FILE.read_text(encoding="utf-8-sig")
         return json.loads(raw).get("projects", [])
     except Exception:
         return []
@@ -195,28 +205,47 @@ def probe_project(proj: dict, use_tailscale_urls: bool) -> dict:
 
     candidates: list[str] = []
     if local:
-        for c in (ext_ip, host_ip, "127.0.0.1", TAILSCALE_MAP.get(ext_ip, "")):
+        for c in ("127.0.0.1", ext_ip, host_ip):
             if c and c != "0.0.0.0" and c not in candidates:
                 candidates.append(c)
     else:
-        for c in (ext_ip, TAILSCALE_MAP.get(ext_ip, ""), host_ip):
-            if c and c not in ("0.0.0.0", "127.0.0.1") and c not in candidates:
-                candidates.append(c)
+        on_office_lan = any(ip.startswith("192.168.2.") for ip in LOCAL_IPS)
+        primary_remote = ext_ip if (on_office_lan and ext_ip.startswith("192.168.2.")) else TAILSCALE_MAP.get(ext_ip, ext_ip)
+        if primary_remote and primary_remote not in ("0.0.0.0", "127.0.0.1"):
+            candidates.append(primary_remote)
 
     up, latency_ms = False, 0
-    for c in candidates:
-        up, latency_ms = check_tcp(c, port, timeout=0.55)
-        if up:
-            break
+    probe_timeout = 0.60 if local else 1.35
+    proc_match = proj.get("process_match") or ""
+    if port > 0:
+        for c in candidates:
+            up, latency_ms = check_tcp(c, port, timeout=probe_timeout)
+            if up:
+                break
+        if not up and ext_ip == "100.90.211.9" and port == 22:
+            up, latency_ms = check_tcp("127.0.0.1", 2223, timeout=0.15)
+    elif proc_match:
+        # Daemon without TCP port (e.g. clipboard-bridge-home)
+        if local:
+            up, latency_ms = True, 1
+        else:
+            up, latency_ms = check_tcp(TAILSCALE_MAP.get(ext_ip, ext_ip), 8085, timeout=0.25)
 
     meta = NODE_META.get(ext_ip, {"alias": "local", "label": "HOME (.9)", "ts_ip": ext_ip, "lan_ip": ext_ip})
     path_str = proj.get("path") or ""
     is_home_migrated = "Proyectos_Home" in path_str
     cat = infer_category(proj, is_home_migrated)
 
-    url_host = meta["ts_ip"] if use_tailscale_urls else ext_ip
+    lan_ip = "127.0.0.1" if (local and ext_ip == "100.90.211.9") else (meta.get("lan_ip") or ext_ip)
+    if lan_ip in ("127.0.0.1", "localhost", "0.0.0.0") and not (local and ext_ip == "100.90.211.9"):
+        lan_ip = "192.168.2.218" if ("192.168.2.218" in LOCAL_IPS or "100.77.199.69" in LOCAL_IPS) else ("192.168.2.222" if "192.168.2.222" in LOCAL_IPS else "100.90.211.9")
+    ts_ip = meta.get("ts_ip") or TAILSCALE_MAP.get(lan_ip, lan_ip)
+
+    url_host = ts_ip if use_tailscale_urls else lan_ip
     scheme = "https" if port == 443 else "http"
-    url = f"{scheme}://{url_host}:{port}" if (port and port not in (1433, 5555)) else f"http://{meta['ts_ip']}:{port}"
+    lan_url = f"{scheme}://{lan_ip}:{port}" if (port and port not in (1433, 5555)) else f"{lan_ip}:{port}"
+    ts_url = f"{scheme}://{ts_ip}:{port}" if (port and port not in (1433, 5555)) else f"{ts_ip}:{port}"
+    url = ts_url if use_tailscale_urls else lan_url
 
     return {
         "id": proj.get("id"),
@@ -228,7 +257,11 @@ def probe_project(proj: dict, use_tailscale_urls: bool) -> dict:
         "alive": up,
         "healthy": up,
         "external_ip": ext_ip,
-        "ts_ip": meta["ts_ip"],
+        "lan_ip": lan_ip,
+        "ts_ip": ts_ip,
+        "active_ip": url_host,
+        "lan_url": lan_url,
+        "ts_url": ts_url,
         "node_label": meta["label"],
         "node_alias": meta["alias"],
         "is_home_migrated": is_home_migrated,
@@ -241,33 +274,37 @@ def probe_project(proj: dict, use_tailscale_urls: bool) -> dict:
 
 
 def invoke_home_bridge(cmd_str: str, timeout: float = 15.0) -> str:
-    # Connect to 127.0.0.1:2223 on office-pc (or via ssh office-pc if running on .218)
-    target_host = "127.0.0.1" if ("192.168.2.222" in LOCAL_IPS or "100.89.1.27" in LOCAL_IPS) else "192.168.2.222"
-    if target_host != "127.0.0.1":
-        # Forward through office-pc
-        b64_inner = base64.b64encode(cmd_str.encode("utf-8")).decode("ascii")
-        ps_cmd = (
-            f"$c=New-Object System.Net.Sockets.TcpClient('127.0.0.1',2223);"
-            f"$s=$c.GetStream();$w=New-Object System.IO.StreamWriter($s);$w.AutoFlush=$true;"
-            f"$r=New-Object System.IO.StreamReader($s);$w.WriteLine('{b64_inner}');"
-            f"$resp=$r.ReadLine();$c.Close();[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($resp))"
-        )
-        res = subprocess.run(["ssh", "-o", "ConnectTimeout=4", "office-pc", f'powershell -NoProfile -Command "{ps_cmd}"'], capture_output=True, text=True, timeout=timeout)
+    # 1. Try direct SSH on 100.90.211.9:22 if open
+    if check_tcp("100.90.211.9", 22, timeout=0.35)[0]:
+        encoded = base64.b64encode(cmd_str.encode("utf-16le")).decode("ascii")
+        res = subprocess.run(["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", "home", f"powershell -NoProfile -EncodedCommand {encoded}"], capture_output=True, text=True, timeout=timeout)
         return (res.stdout or "") + (res.stderr or "")
-    with socket.create_connection(("127.0.0.1", 2223), timeout=timeout) as sock:
-        payload = base64.b64encode(cmd_str.encode("utf-8")).decode("ascii") + "\n"
-        sock.sendall(payload.encode("ascii"))
-        buf = b""
-        while not buf.endswith(b"\n"):
-            chunk = sock.recv(4096)
-            if not chunk:
-                break
-            buf += chunk
-        return base64.b64decode(buf.strip()).decode("utf-8", errors="replace")
+    # 2. Try local reverse tunnel 127.0.0.1:2223 on this node (.218 or .222)
+    if check_tcp("127.0.0.1", 2223, timeout=0.25)[0]:
+        with socket.create_connection(("127.0.0.1", 2223), timeout=timeout) as sock:
+            payload = base64.b64encode(cmd_str.encode("utf-8")).decode("ascii") + "\n"
+            sock.sendall(payload.encode("ascii"))
+            buf = b""
+            while not buf.endswith(b"\n"):
+                chunk = sock.recv(4096)
+                if not chunk:
+                    break
+                buf += chunk
+            return base64.b64decode(buf.strip()).decode("utf-8", errors="replace")
+    # 3. Fallback: forward through office-pc:2223 if office-pc is online
+    b64_inner = base64.b64encode(cmd_str.encode("utf-8")).decode("ascii")
+    ps_cmd = (
+        f"$c=New-Object System.Net.Sockets.TcpClient('127.0.0.1',2223);"
+        f"$s=$c.GetStream();$w=New-Object System.IO.StreamWriter($s);$w.AutoFlush=$true;"
+        f"$r=New-Object System.IO.StreamReader($s);$w.WriteLine('{b64_inner}');"
+        f"$resp=$r.ReadLine();$c.Close();[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($resp))"
+    )
+    res = subprocess.run(["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", "office-pc", f'powershell -NoProfile -Command "{ps_cmd}"'], capture_output=True, text=True, timeout=timeout)
+    return (res.stdout or "") + (res.stderr or "")
 
 
 def find_adb_exe() -> str:
-    local_adb = Path(r"C:\Users\QB_DESARROLLO\Desktop\Proyectos_Home\AgyAndroidAuditor\platform-tools\adb.exe")
+    local_adb = Path(r"C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Proyectos_Home\AgyAndroidAuditor\platform-tools\adb.exe")
     if local_adb.exists():
         return str(local_adb)
     winget_adb = Path.home() / r"AppData\Local\Microsoft\WinGet\Packages\Genymobile.scrcpy_Microsoft.Winget.Source_8wekyb3d8bbwe\scrcpy-win64-v4.1\adb.exe"
@@ -276,9 +313,9 @@ def find_adb_exe() -> str:
     return "adb"
 
 
-def _proxy_exec_to_222(alias: str, ps_script: str, timeout: int = 15) -> str | None:
+def _proxy_exec_to_node(hub_ips: tuple[str, ...], alias: str, ps_script: str, timeout: int = 15) -> str | None:
     payload = json.dumps({"target": alias, "cmd": ps_script}).encode("utf-8")
-    for hub_ip in ("192.168.2.222", "100.89.1.27"):
+    for hub_ip in hub_ips:
         try:
             req = urllib.request.Request(
                 f"http://{hub_ip}:9000/api/exec",
@@ -298,14 +335,40 @@ def _proxy_exec_to_222(alias: str, ps_script: str, timeout: int = 15) -> str | N
 def run_node_ps(alias: str, ps_script: str, timeout: int = 12) -> str:
     on_222 = "192.168.2.222" in LOCAL_IPS or "100.89.1.27" in LOCAL_IPS
     on_218 = "192.168.2.218" in LOCAL_IPS or "100.77.199.69" in LOCAL_IPS
+    on_home = "100.90.211.9" in LOCAL_IPS or "192.168.11.60" in LOCAL_IPS
 
-    if not on_222 and alias in ("office-pc", "home", "serverwebqb-ts", "qb-bd-ts"):
-        proxied = _proxy_exec_to_222(alias, ps_script, timeout=timeout + 3)
+    is_local = (
+        (alias == "office-pc" and on_222)
+        or (alias == "desarrollo" and on_218)
+        or (alias == "home" and on_home)
+    )
+    if is_local:
+        encoded = base64.b64encode(ps_script.encode("utf-16le")).decode("ascii")
+        res = subprocess.run(["powershell", "-NoProfile", "-EncodedCommand", encoded], capture_output=True, text=True, timeout=timeout)
+        return (res.stdout or "") + (res.stderr or "")
+
+    # Direct HTTP :9000 orchestration if target node runs Merlin Web API
+    if alias == "home" and not on_home:
+        proxied = _proxy_exec_to_node(("100.90.211.9",), "home", ps_script, timeout=timeout + 2)
+        if proxied is not None:
+            return proxied
+        return invoke_home_bridge(ps_script, timeout=timeout)
+
+    if alias == "office-pc" and not on_222:
+        proxied = _proxy_exec_to_node(("192.168.2.222", "100.89.1.27"), "office-pc", ps_script, timeout=timeout + 2)
         if proxied is not None:
             return proxied
 
-    if alias == "home":
-        return invoke_home_bridge(ps_script, timeout=timeout)
+    if alias == "desarrollo" and not on_218:
+        proxied = _proxy_exec_to_node(("192.168.2.218", "100.77.199.69"), "desarrollo", ps_script, timeout=timeout + 2)
+        if proxied is not None:
+            return proxied
+
+    if not on_222 and not on_home and alias in ("serverwebqb-ts", "qb-bd-ts"):
+        proxied = _proxy_exec_to_node(("192.168.2.222", "100.89.1.27", "100.90.211.9"), alias, ps_script, timeout=timeout + 3)
+        if proxied is not None:
+            return proxied
+
     if alias == "poco":
         adb_exe = find_adb_exe()
         for target_poco in ("100.126.87.126:5555", "192.168.2.103:5555"):
@@ -315,12 +378,9 @@ def run_node_ps(alias: str, ps_script: str, timeout: int = 12) -> str:
             if res.returncode == 0 and "not found" not in out.lower():
                 return out
         return out
+
     encoded = base64.b64encode(ps_script.encode("utf-16le")).decode("ascii")
-    is_local = (alias == "office-pc" and on_222) or (alias == "desarrollo" and on_218)
-    if is_local:
-        res = subprocess.run(["powershell", "-NoProfile", "-EncodedCommand", encoded], capture_output=True, text=True, timeout=timeout)
-    else:
-        res = subprocess.run(["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", alias, f"powershell -NoProfile -EncodedCommand {encoded}"], capture_output=True, text=True, timeout=timeout)
+    res = subprocess.run(["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", alias, f"powershell -NoProfile -EncodedCommand {encoded}"], capture_output=True, text=True, timeout=timeout)
     return (res.stdout or "") + (res.stderr or "")
 
 
@@ -365,17 +425,26 @@ def control_project(proj_id: str, action: str) -> dict:
         """
         return {"ok": True, "logs": run_node_ps(alias, ps, timeout=8)}
 
-    stop_ps = f"""
-    $conns = Get-NetTCPConnection -LocalPort {port} -State Listen -ErrorAction SilentlyContinue
-    foreach ($c in $conns) {{
-        if ($c.OwningProcess -gt 4) {{ Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue }}
-    }}
-    """
+    proc_match = proj.get("process_match") or ""
+    stop_ps = ""
+    if port > 0:
+        stop_ps += f"""
+        $conns = Get-NetTCPConnection -LocalPort {port} -State Listen -ErrorAction SilentlyContinue
+        foreach ($c in $conns) {{
+            if ($c.OwningProcess -gt 4) {{ Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue }}
+        }}
+        """
+    if proc_match:
+        stop_ps += f"""
+        Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {{ $_.ProcessId -ne $PID -and $_.CommandLine -match '{proc_match.replace("'", "''")}' }} | ForEach-Object {{
+            Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
+        }}
+        """
     start_ps = f"""
     $logOut = Join-Path '{log_dir}' '{proj_id}_stdout.log'
     $logErr = Join-Path '{log_dir}' '{proj_id}_stderr.log'
     $wmiSt = New-CimInstance -ClassName Win32_ProcessStartup -Property @{{ ShowWindow = [uint16]0 }} -ClientOnly
-    $fullCmd = 'cmd.exe /c {cmd_str.replace("'", "''")} >> "' + $logOut + '" 2>> "' + $logErr + '"'
+    $fullCmd = 'C:\\Windows\\System32\\conhost.exe --headless cmd.exe /c {cmd_str.replace("'", "''")} >> "' + $logOut + '" 2>> "' + $logErr + '"'
     $res = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{{
         CommandLine = $fullCmd
         CurrentDirectory = '{path_str.replace("'", "''")}'
@@ -529,7 +598,10 @@ INDEX_HTML = r"""<!DOCTYPE html>
 <header>
   <div class="top-row">
     <div class="brand"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> MERLIN v2.5 // MOBILE SOC</div>
-    <div class="badge-pill" id="clockBadge">TAILSCALE MESH</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="badge-pill" id="modeToggleBtn" onclick="toggleIpMode()" title="Alternar entre IPs LAN (192.168.2.x) y Tailscale (100.x.y.z) [Atajo: Tecla T]" style="cursor:pointer">[T] Modo: LAN IP</button>
+      <div class="badge-pill" id="clockBadge">TAILSCALE MESH</div>
+    </div>
   </div>
   <div class="stats-bar">
     <div class="stat-chip"><div class="num" style="color:var(--green)" id="stUp">--</div><div class="lbl">Running</div></div>
@@ -538,12 +610,17 @@ INDEX_HTML = r"""<!DOCTYPE html>
     <div class="stat-chip"><div class="num" style="color:var(--amber)" id="stNodes">6/6</div><div class="lbl">Tailscale</div></div>
   </div>
   <div class="nav-tabs" id="filterTabs">
-    <button class="tab-btn active" onclick="setFilter('HOME_218', this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> HOME-&gt;.218</button>
-    <button class="tab-btn" onclick="setFilter('.218 (Prod)', this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg> .218 (Prod)</button>
-    <button class="tab-btn" onclick="setFilter('.222 (Oficina)', this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/></svg> .222 (Oficina)</button>
-    <button class="tab-btn" onclick="setFilter('NETWORK', this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Red &amp; Nodos</button>
-    <button class="tab-btn" onclick="setFilter('TERMINAL', this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Terminal Remota</button>
-    <button class="tab-btn" onclick="setFilter('ALL', this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Todos</button>
+    <button class="tab-btn active" onclick="setFilter('ALL', this)">Todos (Mesh)</button>
+    <button class="tab-btn" onclick="setFilter('HA_MESH', this)" style="border-color:#10b981;color:#10b981">⚡ HA Mesh</button>
+    <button class="tab-btn" onclick="setFilter('HOME (.9)', this)">HOME (.9)</button>
+    <button class="tab-btn" onclick="setFilter('POCO (.126)', this)">📱 POCO (.126)</button>
+    <button class="tab-btn" onclick="setFilter('.222 (Oficina)', this)">.222 (Oficina)</button>
+    <button class="tab-btn" onclick="setFilter('.218 (Prod)', this)">.218 (Prod)</button>
+    <button class="tab-btn" onclick="setFilter('WEB-HUB (.237)', this)">.237 (Web Hub)</button>
+    <button class="tab-btn" onclick="setFilter('BD-VAULT (.187)', this)">.187 (BD/WFS)</button>
+    <button class="tab-btn" onclick="setFilter('HOME_218', this)">HOME-&gt;.218</button>
+    <button class="tab-btn" onclick="setFilter('NETWORK', this)">Red &amp; Nodos</button>
+    <button class="tab-btn" onclick="setFilter('TERMINAL', this)">Terminal Remota</button>
   </div>
 </header>
 
@@ -551,6 +628,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
   <div id="servicesSection">
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Buscar servicio, puerto o nodo..." oninput="renderServices()">
+      <button class="btn-wake" id="searchBarModeBtn" onclick="toggleIpMode()" style="border-color:#c084fc;color:#c084fc;background:rgba(192,132,252,0.14)">[T] LAN / Tailscale</button>
       <button class="btn-wake" onclick="wakeAll218()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Levantar .218</button>
       <button class="btn-wake" style="border-color:var(--cyan);color:var(--cyan);background:rgba(56,189,248,0.15)" onclick="testNtfy()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Test ntfy</button>
     </div>
@@ -596,11 +674,53 @@ INDEX_HTML = r"""<!DOCTYPE html>
 <script>
 let allProjects = [];
 let allNodes = [];
-let currentFilter = 'HOME_218';
+let currentFilter = 'ALL';
+const urlParams = new URLSearchParams(window.location.search);
+let tailscaleMode = (
+  urlParams.get('mode') === 'tail' ||
+  urlParams.get('mode') === 'ts' ||
+  urlParams.get('tail') === '1' ||
+  window.location.hostname.startsWith('100.')
+);
+
+function updateModeButtons() {
+  const topBtn = document.getElementById('modeToggleBtn');
+  const barBtn = document.getElementById('searchBarModeBtn');
+  if (topBtn) {
+    topBtn.textContent = tailscaleMode ? '[T] Modo: Tailscale (100.x)' : '[T] Modo: LAN IP (192.168.2.x)';
+    topBtn.style.borderColor = tailscaleMode ? '#c084fc' : 'var(--cyan)';
+    topBtn.style.color = tailscaleMode ? '#c084fc' : 'var(--cyan)';
+    topBtn.style.background = tailscaleMode ? 'rgba(192,132,252,0.18)' : '#0c253b';
+  }
+  if (barBtn) {
+    barBtn.textContent = tailscaleMode ? '[T] Tailscale: ON' : '[T] LAN IP: ON';
+    barBtn.style.borderColor = tailscaleMode ? '#c084fc' : 'var(--cyan)';
+    barBtn.style.color = tailscaleMode ? '#c084fc' : 'var(--cyan)';
+    barBtn.style.background = tailscaleMode ? 'rgba(192,132,252,0.18)' : 'rgba(56,189,248,0.15)';
+  }
+}
+
+function toggleIpMode() {
+  tailscaleMode = !tailscaleMode;
+  updateModeButtons();
+  renderServices();
+  renderNetwork();
+}
+
+document.addEventListener('keydown', (ev) => {
+  const tag = (ev.target && ev.target.tagName) ? ev.target.tagName.toUpperCase() : '';
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+  if (ev.key === 't' || ev.key === 'T') {
+    ev.preventDefault();
+    toggleIpMode();
+  }
+});
 
 async function fetchStatus() {
   try {
-    const r = await fetch('/api/status');
+    updateModeButtons();
+    const modeParam = tailscaleMode ? 'tail' : 'lan';
+    const r = await fetch('/api/status?mode=' + modeParam);
     const data = await r.json();
     allProjects = data.projects || [];
     allNodes = data.nodes || [];
@@ -628,13 +748,15 @@ function setFilter(f, btn) {
 function renderServices() {
   const q = (document.getElementById('searchInput').value || '').toLowerCase();
   const filtered = allProjects.filter(p => {
-    if (currentFilter === 'HOME_218') {
+    if (currentFilter === 'HA_MESH') {
+      if (!p.ha_group) return false;
+    } else if (currentFilter === 'HOME_218') {
       if (!p.is_home_migrated && p.node_label !== 'HOME (.9)' && p.node_label !== 'POCO (.126)') return false;
     } else if (currentFilter !== 'ALL' && currentFilter !== 'NETWORK' && currentFilter !== 'TERMINAL') {
       if (p.node_label !== currentFilter) return false;
     }
     if (q) {
-      return (p.name + ' ' + p.description + ' ' + p.port + ' ' + p.node_label).toLowerCase().includes(q);
+      return (p.name + ' ' + p.description + ' ' + p.port + ' ' + p.node_label + ' ' + (p.ha_group || '') + ' ' + (p.lan_ip || '') + ' ' + (p.ts_ip || '')).toLowerCase().includes(q);
     }
     return true;
   });
@@ -642,7 +764,21 @@ function renderServices() {
   const grid = document.getElementById('servicesGrid');
   grid.innerHTML = filtered.map(p => {
     const isUp = p.status === 'RUNNING';
-    const openBtn = p.url ? `<a class="act-btn open" href="${p.url}" target="_blank"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir</a>` : '';
+    const lanIp = p.lan_ip || p.external_ip || '192.168.2.218';
+    const tsIp = p.ts_ip || p.external_ip || '100.77.199.69';
+    const primaryHost = tailscaleMode ? tsIp : lanIp;
+    const secondaryHost = tailscaleMode ? lanIp : tsIp;
+    const primaryTag = tailscaleMode ? 'TS' : 'LAN';
+    const secondaryTag = tailscaleMode ? 'LAN' : 'TS';
+    const activeUrl = tailscaleMode ? (p.ts_url || p.url) : (p.lan_url || p.url);
+    const haBadge = p.ha_group
+      ? `<span class="status-badge up" style="background:rgba(56,189,248,0.16);color:#38bdf8;border-color:#38bdf8;margin-left:4px" title="Cluster Alta Disponibilidad ${p.ha_group}: ${p.ha_up_count}/${p.ha_total_count} nodos activos (${(p.ha_nodes || []).join(', ')})">⚡ HA ${p.ha_up_count}/${p.ha_total_count}</span>`
+      : '';
+    const openUrlTarget = (!isUp && p.ha_failover_url) ? p.ha_failover_url : activeUrl;
+    const openLabel = (!isUp && p.ha_failover_url) ? `Failover (${p.ha_failover_node})` : `Abrir ${primaryTag}`;
+    const openBtn = (p.port && p.port !== 1433 && p.port !== 5555 && openUrlTarget)
+      ? `<a class="act-btn open" href="${openUrlTarget}" target="_blank" title="${openUrlTarget}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> ${openLabel}</a>`
+      : '';
     return `
       <div class="card ${isUp ? 'running' : 'stopped'}">
         <div class="card-hdr">
@@ -650,11 +786,18 @@ function renderServices() {
             <div class="card-title">${p.name}</div>
             <div class="card-sub">${p.description}</div>
           </div>
-          <span class="status-badge ${isUp ? 'up' : 'down'}">${isUp ? 'ONLINE ' + p.latency_ms + 'ms' : 'OFFLINE'}</span>
+          <div style="display:flex;align-items:center">
+            ${haBadge}
+            <span class="status-badge ${isUp ? 'up' : 'down'}" style="margin-left:4px">${isUp ? 'ONLINE ' + p.latency_ms + 'ms' : 'OFFLINE'}</span>
+          </div>
         </div>
         <div class="meta-row">
           <span>${p.node_label}</span>
-          <span>${p.ts_ip}:${p.port}</span>
+          <span style="font-weight:700;color:${tailscaleMode ? '#c084fc' : 'var(--cyan)'}">${primaryTag}: ${primaryHost}:${p.port}</span>
+        </div>
+        <div class="meta-row" style="padding:4px 8px;font-size:10px;color:var(--muted);background:rgba(15,23,42,0.55)">
+          <span>URL: ${activeUrl}</span>
+          <span>${secondaryTag}: ${secondaryHost}:${p.port}</span>
         </div>
         <div class="actions">
           ${openBtn}
@@ -687,16 +830,20 @@ function renderNetwork() {
   `).join('');
 
   const portals = [
-    { name: "QB-Network SOC", desc: "Monitoreo Fortigate, VLANs, Trafico & SOC", url: "http://100.89.1.27:5080" },
-    { name: "Selective Router PAC", desc: "Control de Rutas, Nodos y Proxy PAC", url: "http://100.89.1.27:8085" },
-    { name: "OW-IDS Server (.218)", desc: "OpenWazuh IDS & Telemetria de Eventos", url: "http://100.77.199.69:8081" },
-    { name: "SplunkSim SIEM (.218)", desc: "Simulador SIEM & Blue Team SOC Lab", url: "http://100.77.199.69:5015" },
-    { name: "Desencript C2 / IDS", desc: "Consola C2 y Monitoreo IDS Remoto", url: "http://100.89.1.27:8002" },
-    { name: "Brain Hub Central (.237)", desc: "Memoria Unificada & Boveda Cifrada", url: "http://100.105.210.35:8090" },
-    { name: "TaskHub Home (.218)", desc: "Gestor Unificado Classroom & Moodle", url: "http://100.77.199.69:3011" },
-    { name: "BecaFinder Home (.218)", desc: "Buscador Academico de Becas UDG", url: "http://100.77.199.69:3012" },
+    { name: "POCO Scrcpy Studio (:8780)", desc: "Capturas Exclusivas en Home (Datos/Wi-Fi) & Stream", lan_url: "http://127.0.0.1:8780/", ts_url: "http://100.90.211.9:8780/" },
+    { name: "QB-Network SOC", desc: "Monitoreo Fortigate, VLANs, Trafico & SOC", lan_url: "http://192.168.2.222:5080", ts_url: "http://100.89.1.27:5080" },
+    { name: "Selective Router PAC", desc: "Control de Rutas, Nodos y Proxy PAC", lan_url: "http://192.168.2.222:8085", ts_url: "http://100.89.1.27:8085" },
+    { name: "OW-IDS Server (.218)", desc: "OpenWazuh IDS & Telemetria de Eventos", lan_url: "http://192.168.2.218:8081", ts_url: "http://100.77.199.69:8081" },
+    { name: "SplunkSim SIEM (.218)", desc: "Simulador SIEM & Blue Team SOC Lab", lan_url: "http://192.168.2.218:5015", ts_url: "http://100.77.199.69:5015" },
+    { name: "Desencript C2 / IDS", desc: "Consola C2 y Monitoreo IDS Remoto", lan_url: "http://192.168.2.222:8002", ts_url: "http://100.89.1.27:8002" },
+    { name: "Brain Hub Central (.237)", desc: "Memoria Unificada & Boveda Cifrada", lan_url: "http://192.168.2.237:8090", ts_url: "http://100.105.210.35:8090" },
+    { name: "TaskHub Home (.218)", desc: "Gestor Unificado Classroom & Moodle", lan_url: "http://192.168.2.218:3011", ts_url: "http://100.77.199.69:3011" },
+    { name: "BecaFinder Home (.218)", desc: "Buscador Academico de Becas UDG", lan_url: "http://192.168.2.218:3012", ts_url: "http://100.77.199.69:3012" },
   ];
-  document.getElementById('quickPortalsGrid').innerHTML = portals.map(p => `
+  document.getElementById('quickPortalsGrid').innerHTML = portals.map(p => {
+    const activeUrl = tailscaleMode ? p.ts_url : p.lan_url;
+    const modeLabel = tailscaleMode ? 'Tailscale' : 'LAN';
+    return `
     <div class="card running">
       <div class="card-hdr">
         <div>
@@ -705,10 +852,10 @@ function renderNetwork() {
         </div>
       </div>
       <div class="actions">
-        <a class="act-btn open" href="${p.url}" target="_blank"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir en Tailscale (${p.url.replace('http://','')})</a>
+        <a class="act-btn open" href="${activeUrl}" target="_blank"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir en ${modeLabel} (${activeUrl.replace('http://','')})</a>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 async function doAction(id, action) {
@@ -778,10 +925,57 @@ TARGET_ALIAS_MAP = {
     "222": "office-pc",
     "office-pc": "office-pc",
     "home": "home",
+    "9": "home",
     "237": "serverwebqb-ts",
     "serverwebqb-ts": "serverwebqb-ts",
+    "187": "qb-bd-ts",
+    "qb-bd-ts": "qb-bd-ts",
     "poco": "poco",
 }
+
+
+HA_FAILOVER_GROUPS = {
+    "HA-MERLIN-9000": ["merlin-soc-home", "merlin-soc-222", "merlin-soc-218", "merlin-soc-237"],
+    "HA-WAOS-6002": ["waos-218", "whatsapp-ai-bot"],
+    "HA-BRAIN-8090": ["brain-portal-home", "brain-portal-218", "brain-portal-hub"],
+    "HA-DORY-PHISHING": ["dory-phishing", "dory-phishing-218"],
+    "HA-DORY-MAIL": ["dory-stalwart", "dory-stalwart-218"],
+    "HA-DORY-TUNNEL": ["dory-tunnel", "dory-tunnel-218"],
+    "HA-QB-CCA": ["qb-cca", "qb-cca-218"],
+    "HA-PORYGON-5090": ["porygon-xdr-home", "porygon-xdr-222"],
+    "HA-ROUTEROS-8085": ["routeros-home", "selective-router"],
+    "HA-TASKHUB": ["taskhub-222", "taskhub-home-218"],
+    "HA-BECAFINDER": ["becafinder-222", "becafinder-home-218"],
+    "HA-OLLAMA-LLM": ["ollama-222", "ollama-218"],
+    "HA-QB-WEB": ["qb-web-prod", "qb-web-dev", "qb-web-222"],
+    "HA-QB-PORTAL": ["qb-panel-dev", "portal-empleados"],
+    "HA-POCO-MOBILE": ["poco-scrcpy-home", "poco-agy-auditor", "poco-adb-bridge"],
+}
+
+
+def enrich_ha_clusters(probed: list[dict]) -> list[dict]:
+    by_id = {p["id"]: p for p in probed if p.get("id")}
+    id_to_group = {}
+    for grp, members in HA_FAILOVER_GROUPS.items():
+        for mid in members:
+            id_to_group[mid] = grp
+
+    for p in probed:
+        pid = p.get("id")
+        grp = id_to_group.get(pid)
+        if not grp:
+            continue
+        members = [by_id[m] for m in HA_FAILOVER_GROUPS[grp] if m in by_id]
+        up_members = [m for m in members if m.get("status") == "RUNNING"]
+        p["ha_group"] = grp
+        p["ha_up_count"] = len(up_members)
+        p["ha_total_count"] = len(members)
+        p["ha_nodes"] = [m.get("node_label", "") for m in members]
+        if p.get("status") != "RUNNING" and up_members:
+            best_peer = sorted(up_members, key=lambda x: x.get("latency_ms") or 999)[0]
+            p["ha_failover_url"] = best_peer.get("ts_url") or best_peer.get("url")
+            p["ha_failover_node"] = best_peer.get("node_label")
+    return probed
 
 
 class MerlinWebHandler(BaseHTTPRequestHandler):
@@ -793,9 +987,19 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Content-Length", str(len(raw)))
         self.end_headers()
         self.wfile.write(raw)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -808,16 +1012,27 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
             self.wfile.write(raw)
             return
 
+        if parsed.path == "/api/ping":
+            self._send_json({"ok": True, "status": "ok", "hostname": socket.gethostname()})
+            return
+
         if parsed.path in ("/api/status", "/api/health"):
+            qs = parse_qs(parsed.query)
+            mode_arg = (qs.get("mode", [""])[0] or "").lower()
             host_hdr = self.headers.get("Host", "")
             client_ip = self.client_address[0] if self.client_address else ""
-            use_ts = client_ip.startswith("100.") or host_hdr.startswith("100.")
+            if mode_arg in ("tail", "tailscale", "ts"):
+                use_ts = True
+            elif mode_arg in ("lan", "local"):
+                use_ts = False
+            else:
+                use_ts = client_ip.startswith("100.") or host_hdr.startswith("100.")
             projects = load_projects()
 
-            with ThreadPoolExecutor(max_workers=24) as pool:
+            with ThreadPoolExecutor(max_workers=32) as pool:
                 proj_futures = [pool.submit(probe_project, p, use_ts) for p in projects]
-                node_futures = [pool.submit(check_tcp, n["ts_ip"], n["probe_port"], 0.3) for n in TAILSCALE_NODES]
-                probed = [f.result() for f in proj_futures]
+                node_futures = [pool.submit(check_tcp, n["ts_ip"], n["probe_port"], 1.10) for n in TAILSCALE_NODES]
+                probed = enrich_ha_clusters([f.result() for f in proj_futures])
                 node_results = [f.result() for f in node_futures]
 
             nodes_out = []
@@ -853,7 +1068,7 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
             act = body.get("action", "")
             pid = body.get("id", "")
             if act == "heal":
-                out = run_node_ps("desarrollo", "& 'C:\\Users\\QB_DESARROLLO\\Desktop\\Merlin\\start_all_services.ps1'", timeout=18)
+                out = run_node_ps("desarrollo", "& 'C:\\Users\\QB_DESARROLLO\\Desktop\\03-Orquestador-y-Proyectos-Home\\Merlin\\start_all_services.ps1'", timeout=18)
                 self._send_json({"ok": True, "message": "Auto-Heal completado", "output": out})
                 return
             res = control_project(pid, act)
@@ -881,7 +1096,7 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
             return
 
         if parsed.path == "/api/wake218":
-            out = run_node_ps("desarrollo", "& 'C:\\Users\\QB_DESARROLLO\\Desktop\\Merlin\\start_all_services.ps1'", timeout=18)
+            out = run_node_ps("desarrollo", "& 'C:\\Users\\QB_DESARROLLO\\Desktop\\03-Orquestador-y-Proyectos-Home\\Merlin\\start_all_services.ps1'", timeout=18)
             self._send_json({"ok": True, "output": out})
             return
 
@@ -906,18 +1121,26 @@ def auto_heal_and_ntfy_watchdog():
     time.sleep(10)
     while True:
         try:
-            subprocess.run(
-                ["powershell", "-NoProfile", "-Command", "if ((Get-Service Tailscale -ErrorAction SilentlyContinue).Status -ne 'Running') { Start-Service Tailscale -ErrorAction SilentlyContinue }"],
-                capture_output=True,
-                timeout=6,
-            )
+            sc_res = subprocess.run(["sc.exe", "query", "Tailscale"], capture_output=True, text=True, timeout=3)
+            if "RUNNING" not in (sc_res.stdout or "").upper():
+                subprocess.run(["sc.exe", "start", "Tailscale"], capture_output=True, timeout=5)
             projects = load_projects()
+            by_id = {p.get("id"): p for p in projects if p.get("id")}
             now_ts = time.time()
             for proj in projects:
                 pid = proj.get("id") or ""
+                if proj.get("port") == PORT or pid.startswith("merlin-soc-"):
+                    continue
                 ext_ip = proj.get("external_ip") or "127.0.0.1"
                 if not is_local_ip(ext_ip):
                     continue
+                standby_for = proj.get("ha_standby_for")
+                if standby_for and standby_for in by_id:
+                    primary_info = probe_project(by_id[standby_for], True)
+                    if bool(primary_info["healthy"]):
+                        down_since.pop(pid, None)
+                        alerted_down.discard(pid)
+                        continue
                 info = probe_project(proj, True)
                 is_up = bool(info["healthy"])
                 if is_up:
@@ -987,4 +1210,5 @@ if __name__ == "__main__":
     server = ThreadingHTTPServer(("0.0.0.0", PORT), MerlinWebHandler)
     print(f"[*] Merlin v2.5 Mobile & Network Command Center listening on http://0.0.0.0:{PORT} (ntfy: {NTFY_TOPIC})")
     server.serve_forever()
+
 

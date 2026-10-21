@@ -24,9 +24,11 @@
     Version: 2.1.0
 #>
 
+param([switch]$NoMain)
+
 # --- Configuration -----------------------------------------------------------
 
-$ScriptDir   = if ($PSScriptRoot) { $PSScriptRoot } elseif ($MyInvocation.MyCommand.Path) { Split-Path -Parent $MyInvocation.MyCommand.Path } else { "C:\Users\Admin\Desktop\Merlin" }
+$ScriptDir   = if ($PSScriptRoot) { $PSScriptRoot } elseif ($MyInvocation.MyCommand.Path) { Split-Path -Parent $MyInvocation.MyCommand.Path } elseif (Test-Path "$env:USERPROFILE\Desktop\02-plataformas-activas\merlin") { "$env:USERPROFILE\Desktop\02-plataformas-activas\merlin" } else { "$env:USERPROFILE\Desktop\Merlin" }
 $ConfigFile  = Join-Path $ScriptDir "projects.json"
 $LogDir      = Join-Path $ScriptDir "logs"
 $RefreshSecs = 4
@@ -200,14 +202,14 @@ function Start-AsyncRemotePortScans {
     foreach ($ip in $uniqueIps.Keys) {
         if ($script:ActiveSshScans.ContainsKey($ip)) { continue }
         $lastTime = $script:RemoteCacheTime[$ip]
-        if (-not $Force -and $lastTime -and (($now - $lastTime).TotalSeconds -lt 10)) { continue }
+        if (-not $Force -and $lastTime -and (($now - $lastTime).TotalSeconds -lt 15)) { continue }
         $alias = $uniqueIps[$ip]
         try {
             $psi = New-Object System.Diagnostics.ProcessStartInfo
             $psi.FileName = "ssh.exe"
-            $psi.Arguments = "-o ConnectTimeout=2 -o BatchMode=yes $alias ""netstat -ano | findstr LISTENING"""
+            $psi.Arguments = "-o ConnectTimeout=2 -o ServerAliveInterval=2 -o ServerAliveCountMax=1 -o BatchMode=yes $alias ""netstat -ano | findstr LISTENING"""
             $psi.RedirectStandardOutput = $true
-            $psi.RedirectStandardError = $true
+            $psi.RedirectStandardError = $false
             $psi.UseShellExecute = $false
             $psi.CreateNoWindow = $true
             $proc = [System.Diagnostics.Process]::Start($psi)
@@ -231,29 +233,34 @@ function Collect-AsyncRemotePortScans {
         $done = $scan.Proc.HasExited
         if (-not $done -and $WaitMs -gt 0) {
             $rem = $WaitMs - [int]$sw.ElapsedMilliseconds
-            if ($rem -lt 450) { $rem = 450 }
-            $done = $scan.Proc.WaitForExit($rem)
+            if ($rem -gt 0) {
+                $done = $scan.Proc.WaitForExit($rem)
+            }
         }
         if ($done) {
             try {
-                $raw = $scan.OutTask.Result
-                $map = @{}
-                foreach ($line in ($raw -split "`r?`n")) {
-                    if ("$line" -match 'TCP\s+\S+:(\d+)\s+\S+\s+LISTENING\s+(\d+)') {
-                        $p = [int]$Matches[1]
-                        $pid_ = [int]$Matches[2]
-                        if (-not $map.ContainsKey($p)) { $map[$p] = $pid_ }
+                if ($scan.OutTask.Wait(150)) {
+                    $raw = $scan.OutTask.Result
+                    $map = @{}
+                    foreach ($line in ($raw -split "`r?`n")) {
+                        if ("$line" -match 'TCP\s+\S+:(\d+)\s+\S+\s+LISTENING\s+(\d+)') {
+                            $p = [int]$Matches[1]
+                            $pid_ = [int]$Matches[2]
+                            if (-not $map.ContainsKey($p)) { $map[$p] = $pid_ }
+                        }
+                    }
+                    if ($map.Count -gt 0) {
+                        $script:RemotePortCache[$ip] = $map
+                        $script:RemoteCacheTime[$ip] = Get-Date
                     }
                 }
-                if ($map.Count -gt 0) {
-                    $script:RemotePortCache[$ip] = $map
-                    $script:RemoteCacheTime[$ip] = Get-Date
-                }
             } catch {}
+            try { $scan.Proc.Kill($true) } catch {}
             try { $scan.Proc.Dispose() } catch {}
             $completedIps += $ip
-        } elseif (((Get-Date) - $scan.StartTime).TotalSeconds -gt 6) {
-            try { $scan.Proc.Kill(); $scan.Proc.Dispose() } catch {}
+        } elseif (((Get-Date) - $scan.StartTime).TotalSeconds -gt 3.5) {
+            try { $scan.Proc.Kill($true) } catch { try { $scan.Proc.Kill() } catch {} }
+            try { $scan.Proc.Dispose() } catch {}
             $completedIps += $ip
         }
     }
@@ -263,7 +270,7 @@ function Collect-AsyncRemotePortScans {
 }
 
 function Get-ParallelRemoteTcpProbes {
-    param([array]$Projects, [int]$TimeoutMs = 450)
+    param([array]$Projects, [int]$TimeoutMs = 300)
     $results = @{}
     $pending = @()
     foreach ($p in $Projects) {
@@ -275,19 +282,20 @@ function Get-ParallelRemoteTcpProbes {
         if ($results.ContainsKey($key)) { continue }
         $probeHost = Resolve-ReachableIp -Ip $p.external_ip
         if ([int]$p.port -eq 5555) {
-            # Avoid opening/closing raw TCP sockets on Android adbd:5555 (which triggers connect/disconnect notifications on POCO)
-            $pocoUp = $false
-            try {
-                $arpRaw = (& arp -a 192.168.2.103 2>$null) -join " "
-                if ($arpRaw -match "192\.168\.2\.103") { $pocoUp = $true }
-            } catch {}
-            if (-not $pocoUp) {
+            # Avoid opening/closing raw TCP sockets on Android adbd:5555 and cache POCO status for 20s
+            $now = Get-Date
+            if ($null -eq $script:PocoCacheTime -or (($now - $script:PocoCacheTime).TotalSeconds -ge 20)) {
+                $pocoUp = $false
                 try {
-                    $tsRaw = (& tailscale status 2>$null) -join "`n"
-                    if ($tsRaw -match "100\.126\.87\.126" -and $tsRaw -notmatch "100\.126\.87\.126.*offline") { $pocoUp = $true }
+                    $ping = New-Object System.Net.NetworkInformation.Ping
+                    $reply = $ping.Send("100.126.87.126", 150)
+                    if ($reply -and $reply.Status -eq [System.Net.NetworkInformation.IPStatus]::Success) { $pocoUp = $true }
+                    $ping.Dispose()
                 } catch {}
+                $script:PocoStatusCache = $pocoUp
+                $script:PocoCacheTime   = $now
             }
-            $results[$key] = $pocoUp
+            $results[$key] = [bool]$script:PocoStatusCache
             continue
         }
         try {
@@ -501,12 +509,13 @@ function Refresh-AllStatuses {
     if ($hasRemoteInView) {
         if (-not $script:InitialScanDone -or $ForceSsh) {
             Start-AsyncRemotePortScans -Projects $scanProjects -Force:$ForceSsh
-            $remoteTcpMap = Get-ParallelRemoteTcpProbes -Projects $scanProjects -TimeoutMs 280
-            Collect-AsyncRemotePortScans -WaitMs 2200
+            $remoteTcpMap = Get-ParallelRemoteTcpProbes -Projects $scanProjects -TimeoutMs 250
+            $waitMs = if ($ForceSsh) { 800 } else { 200 }
+            Collect-AsyncRemotePortScans -WaitMs $waitMs
             $script:InitialScanDone = $true
         } else {
             Start-AsyncRemotePortScans -Projects $scanProjects
-            $remoteTcpMap = Get-ParallelRemoteTcpProbes -Projects $scanProjects -TimeoutMs 250
+            $remoteTcpMap = Get-ParallelRemoteTcpProbes -Projects $scanProjects -TimeoutMs 220
             Collect-AsyncRemotePortScans -WaitMs 0
         }
     }
@@ -532,17 +541,18 @@ function Get-NodeCheckHostByAlias {
 }
 
 function Invoke-RemoteNodePowerShell {
-    param([string]$Alias, [string]$ScriptBlockText, [int]$TimeoutSecs = 8)
-    # Fast TCP Port 22 pre-flight check so unreachable SSH hosts (e.g. home when offline) fail in 400ms instead of hanging 60s
+    param([string]$Alias, [string]$ScriptBlockText, [int]$TimeoutSecs = 6)
+    # Fast TCP Port 22 pre-flight check so unreachable SSH hosts (e.g. home when offline) fail in 350ms instead of hanging 60s
     $checkHost = Get-NodeCheckHostByAlias -Alias $Alias
-    if ($checkHost -and -not (Test-FastTcpPort -TargetHost $checkHost -Port 22 -TimeoutMs 400)) {
+    if ($checkHost -and -not (Test-FastTcpPort -TargetHost $checkHost -Port 22 -TimeoutMs 350)) {
         return "ERR:SSH_OFFLINE (${checkHost}:22 cerrado o fuera de linea)"
     }
 
     # Cancel any in-flight background netstat scan on this alias to avoid concurrent SSH banner collisions
     foreach ($ip in @($script:ActiveSshScans.Keys)) {
         if ($script:ActiveSshScans[$ip].Alias -eq $Alias) {
-            try { $script:ActiveSshScans[$ip].Proc.Kill(); $script:ActiveSshScans[$ip].Proc.Dispose() } catch {}
+            try { $script:ActiveSshScans[$ip].Proc.Kill($true) } catch { try { $script:ActiveSshScans[$ip].Proc.Kill() } catch {} }
+            try { $script:ActiveSshScans[$ip].Proc.Dispose() } catch {}
             $script:ActiveSshScans.Remove($ip)
         }
     }
@@ -554,7 +564,7 @@ function Invoke-RemoteNodePowerShell {
         try {
             $psi = New-Object System.Diagnostics.ProcessStartInfo
             $psi.FileName = "ssh.exe"
-            $psi.Arguments = "-o ConnectTimeout=4 -o BatchMode=yes -o StrictHostKeyChecking=no $Alias `"powershell -NoProfile -NonInteractive -OutputFormat Text -ExecutionPolicy Bypass -EncodedCommand $b64`""
+            $psi.Arguments = "-n -o ConnectTimeout=3 -o ServerAliveInterval=2 -o ServerAliveCountMax=1 -o BatchMode=yes -o StrictHostKeyChecking=no $Alias `"powershell -NoProfile -NonInteractive -OutputFormat Text -ExecutionPolicy Bypass -EncodedCommand $b64`""
             $psi.RedirectStandardOutput = $true
             $psi.RedirectStandardError = $true
             $psi.UseShellExecute = $false
@@ -563,10 +573,13 @@ function Invoke-RemoteNodePowerShell {
             $outTask = $proc.StandardOutput.ReadToEndAsync()
             $errTask = $proc.StandardError.ReadToEndAsync()
             if (-not $proc.WaitForExit($TimeoutSecs * 1000)) {
-                try { $proc.Kill(); $proc.Dispose() } catch {}
+                try { $proc.Kill($true) } catch { try { $proc.Kill() } catch {} }
+                try { $proc.Dispose() } catch {}
                 return "ERR:SSH_TIMEOUT (${TimeoutSecs}s)"
             }
-            $joined = ($outTask.Result + "`n" + $errTask.Result) -replace '(?s)#< CLIXML.*?</Objs>', ''
+            $outText = if ($outTask.Wait(200)) { $outTask.Result } else { "" }
+            $errText = if ($errTask.Wait(200)) { $errTask.Result } else { "" }
+            $joined = ($outText + "`n" + $errText) -replace '(?s)#< CLIXML.*?</Objs>', ''
             $joined = $joined.Trim()
             try { $proc.Dispose() } catch {}
         } catch {
@@ -575,7 +588,7 @@ function Invoke-RemoteNodePowerShell {
         if ($joined -notmatch "banner exchange") {
             return $joined
         }
-        Start-Sleep -Milliseconds 500
+        Start-Sleep -Milliseconds 300
     }
     return $joined
 }
@@ -1140,22 +1153,12 @@ function Invoke-AutoHealPass {
                 } catch {}
             }
         } elseif ($null -ne $remoteNode) {
-            # Remote service (e.g. Home 100.90.211.9:8090, .218, .237): only attempt if SSH port 22 is open
-            $sshCheckHost = if ($remoteNode.LanIp -and (Resolve-ReachableIp -Ip $proj.external_ip) -eq $remoteNode.LanIp) { $remoteNode.LanIp } else { $remoteNode.TailscaleIp }
-            if ($sshCheckHost -and (Test-FastTcpPort -TargetHost $sshCheckHost -Port 22 -TimeoutMs 220)) {
-                $script:AutoHealCooldowns[$proj.id] = $now
-                try {
-                    $null = Start-RemoteNodeProject -Project $proj -Node $remoteNode *>$null
-                    $script:LastHealEvent = "Auto-healed $($proj.name) on $($remoteNode.Alias) ($(Get-Date -Format 'HH:mm:ss'))"
-                    if ($shouldAlert) {
-                        $script:AlertSentForDown[$proj.id] = $now
-                        Send-NtfyAlert -Title "Desconectado >1 min: $($proj.name)" -Message "Merlin ($env:COMPUTERNAME): $($proj.name) (:$($proj.port)) en $($remoteNode.Label) permanecio desconectado $([int]$downSeconds)s."
-                    }
-                    $healedAny = $true
-                } catch {}
-            } else {
-                # Back off 60s if remote host SSH is offline so UI never lags
-                $script:AutoHealCooldowns[$proj.id] = $now.AddSeconds(15)
+            # Remote nodes are auto-healed asynchronously by Merlin_Cluster_Watchdog (merlin_watchdog.ps1)
+            # so interactive TUI rendering never blocks on remote SSH process creation.
+            $script:AutoHealCooldowns[$proj.id] = $now
+            if ($shouldAlert) {
+                $script:AlertSentForDown[$proj.id] = $now
+                Send-NtfyAlert -Title "Desconectado >1 min: $($proj.name)" -Message "Merlin ($env:COMPUTERNAME): $($proj.name) (:$($proj.port)) en $($remoteNode.Label) permanecio desconectado $([int]$downSeconds)s."
             }
         }
     }
@@ -2228,8 +2231,7 @@ function Main {
 
     Write-Host ""
     Write-Host "  [*] Initializing Merlin Multi-Server Orchestrator v2.4..." -ForegroundColor Cyan
-    $allStatuses = Refresh-AllStatuses -Projects $allProjects -ForceSsh
-    $null = Invoke-AutoHealPass -AllProjects $allProjects -AllStatuses $allStatuses
+    $allStatuses = Refresh-AllStatuses -Projects $allProjects
     $view = Get-FilteredProjectsAndStatuses -AllProjects $allProjects -AllStatuses $allStatuses
     $projects = $view.Projects
     $statuses = $view.Statuses
@@ -2238,6 +2240,7 @@ function Main {
     $maxIdx = $projects.Count - 1
 
     Show-Dashboard -Statuses $statuses -SelectedIndex $selectedIdx
+    $null = Invoke-AutoHealPass -AllProjects $allProjects -AllStatuses $allStatuses
 
     while ($true) {
         $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
@@ -2629,5 +2632,7 @@ function Main {
 
 # --- Entry Point -------------------------------------------------------------
 
-$Host.UI.RawUI.WindowTitle = "Merlin v2.3 - Multi-Server Manager"
-Main
+$Host.UI.RawUI.WindowTitle = "Merlin v2.4 - Multi-Server Manager"
+if (-not $NoMain) {
+    Main
+}

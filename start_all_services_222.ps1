@@ -31,9 +31,11 @@ $projects = @($config.projects | Where-Object { $_.external_ip -eq "192.168.2.22
 
 function Get-PortMap {
     $map = @{}
+    $svcPids = @(Get-Process -Name "svchost" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id)
     try {
         $conns = Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue
         foreach ($c in $conns) {
+            if ($c.OwningProcess -in $svcPids) { continue }
             $p = [int]$c.LocalPort
             if (-not $map.ContainsKey($p)) {
                 $map[$p] = [int]$c.OwningProcess
@@ -46,6 +48,7 @@ function Get-PortMap {
             if ("$line" -match 'TCP\s+\S+:(\d+)\s+\S+\s+LISTENING\s+(\d+)') {
                 $p = [int]$Matches[1]
                 $pid_ = [int]$Matches[2]
+                if ($pid_ -in $svcPids) { continue }
                 if (-not $map.ContainsKey($p)) { $map[$p] = $pid_ }
             }
         }
