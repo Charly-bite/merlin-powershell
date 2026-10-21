@@ -3,6 +3,20 @@
     "poll_interval_seconds": 4,
     "projects": [
         {
+            "id": "merlin-soc-home",
+            "name": "Merlin SOC (:9000)",
+            "description": "Orquestador Central Multi-Nodo Tailscale (Home + .222 + .218 + .237 + .187 + Poco)",
+            "path": "C:\\Users\\Admin\\Desktop\\Merlin",
+            "command": "pythonw.exe merlin_web.py 9000",
+            "port": 9000,
+            "host": "0.0.0.0",
+            "external_ip": "100.90.211.9",
+            "health_check": "/api/health",
+            "color": "#38bdf8",
+            "requires_admin": false,
+            "environment": "prod"
+        },
+        {
             "id": "brain-portal-home",
             "name": "Brain Portal (Home)",
             "description": "Antigravity Brain Web Portal & Cyber Vault local en DESKTOP-874GS44 (Port 8090)",
@@ -60,18 +74,18 @@
         },
         {
             "id": "poco-scrcpy-home",
-            "name": "POCO Scrcpy Studio",
-            "description": "POCO M8 Pro 5G Display Studio v4.1 & ADB Multi-Transport Server (Port 5037)",
+            "name": "POCO Scrcpy Studio (:8780)",
+            "description": "POCO M8 Pro 5G Display & Screenshot Web Studio v4.7 (http://127.0.0.1:8780/)",
             "path": "C:\\Users\\Admin\\Desktop\\POCO-Scrcpy-Studio",
             "command": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\pythonw.exe POCO-Scrcpy-Studio.pyw",
-            "port": 5037,
-            "host": "127.0.0.1",
+            "port": 8780,
+            "host": "0.0.0.0",
             "external_ip": "100.90.211.9",
             "process_match": "POCO-Scrcpy-Studio\\.pyw",
-            "health_check": null,
+            "health_check": "/login",
             "color": "#f59e0b",
             "requires_admin": false,
-            "environment": "dev"
+            "environment": "prod"
         },
         {
             "id": "clipboard-bridge-home",

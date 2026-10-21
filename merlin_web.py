@@ -208,7 +208,7 @@ def probe_project(proj: dict, use_tailscale_urls: bool) -> dict:
             candidates.append(primary_remote)
 
     up, latency_ms = False, 0
-    probe_timeout = 0.15 if local else 0.28
+    probe_timeout = 0.15 if local else 0.60
     proc_match = proj.get("process_match") or ""
     if port > 0:
         for c in candidates:
