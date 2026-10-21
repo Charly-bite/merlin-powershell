@@ -24,6 +24,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 CONFIG_FILE = SCRIPT_DIR / "projects.json"
 LOG_DIR = SCRIPT_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+if sys.stdout is None or sys.stderr is None:
+    try:
+        _mw_log = open(LOG_DIR / "merlin_web.log", "a", encoding="utf-8", buffering=1)
+        sys.stdout = _mw_log
+        sys.stderr = _mw_log
+    except Exception:
+        pass
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 9000
 NTFY_TOPIC = os.environ.get("MERLIN_NTFY_TOPIC", "mrdev-merlin-soc")
@@ -208,7 +215,7 @@ def probe_project(proj: dict, use_tailscale_urls: bool) -> dict:
             candidates.append(primary_remote)
 
     up, latency_ms = False, 0
-    probe_timeout = 0.50 if local else 0.60
+    probe_timeout = 0.60 if local else 1.35
     proc_match = proj.get("process_match") or ""
     if port > 0:
         for c in candidates:
@@ -1022,9 +1029,9 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
                 use_ts = client_ip.startswith("100.") or host_hdr.startswith("100.")
             projects = load_projects()
 
-            with ThreadPoolExecutor(max_workers=48) as pool:
+            with ThreadPoolExecutor(max_workers=32) as pool:
                 proj_futures = [pool.submit(probe_project, p, use_ts) for p in projects]
-                node_futures = [pool.submit(check_tcp, n["ts_ip"], n["probe_port"], 0.25) for n in TAILSCALE_NODES]
+                node_futures = [pool.submit(check_tcp, n["ts_ip"], n["probe_port"], 1.10) for n in TAILSCALE_NODES]
                 probed = enrich_ha_clusters([f.result() for f in proj_futures])
                 node_results = [f.result() for f in node_futures]
 
