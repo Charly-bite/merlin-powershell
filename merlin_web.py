@@ -604,7 +604,9 @@ INDEX_HTML = r"""<!DOCTYPE html>
   </div>
   <div class="nav-tabs" id="filterTabs">
     <button class="tab-btn active" onclick="setFilter('ALL', this)">Todos (Mesh)</button>
+    <button class="tab-btn" onclick="setFilter('HA_MESH', this)" style="border-color:#10b981;color:#10b981">⚡ HA Mesh</button>
     <button class="tab-btn" onclick="setFilter('HOME (.9)', this)">HOME (.9)</button>
+    <button class="tab-btn" onclick="setFilter('POCO (.126)', this)">📱 POCO (.126)</button>
     <button class="tab-btn" onclick="setFilter('.222 (Oficina)', this)">.222 (Oficina)</button>
     <button class="tab-btn" onclick="setFilter('.218 (Prod)', this)">.218 (Prod)</button>
     <button class="tab-btn" onclick="setFilter('WEB-HUB (.237)', this)">.237 (Web Hub)</button>
@@ -739,13 +741,15 @@ function setFilter(f, btn) {
 function renderServices() {
   const q = (document.getElementById('searchInput').value || '').toLowerCase();
   const filtered = allProjects.filter(p => {
-    if (currentFilter === 'HOME_218') {
+    if (currentFilter === 'HA_MESH') {
+      if (!p.ha_group) return false;
+    } else if (currentFilter === 'HOME_218') {
       if (!p.is_home_migrated && p.node_label !== 'HOME (.9)' && p.node_label !== 'POCO (.126)') return false;
     } else if (currentFilter !== 'ALL' && currentFilter !== 'NETWORK' && currentFilter !== 'TERMINAL') {
       if (p.node_label !== currentFilter) return false;
     }
     if (q) {
-      return (p.name + ' ' + p.description + ' ' + p.port + ' ' + p.node_label + ' ' + (p.lan_ip || '') + ' ' + (p.ts_ip || '')).toLowerCase().includes(q);
+      return (p.name + ' ' + p.description + ' ' + p.port + ' ' + p.node_label + ' ' + (p.ha_group || '') + ' ' + (p.lan_ip || '') + ' ' + (p.ts_ip || '')).toLowerCase().includes(q);
     }
     return true;
   });
@@ -760,8 +764,13 @@ function renderServices() {
     const primaryTag = tailscaleMode ? 'TS' : 'LAN';
     const secondaryTag = tailscaleMode ? 'LAN' : 'TS';
     const activeUrl = tailscaleMode ? (p.ts_url || p.url) : (p.lan_url || p.url);
-    const openBtn = (p.port && p.port !== 1433 && p.port !== 5555 && activeUrl)
-      ? `<a class="act-btn open" href="${activeUrl}" target="_blank" title="${activeUrl}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir ${primaryTag}</a>`
+    const haBadge = p.ha_group
+      ? `<span class="status-badge up" style="background:rgba(56,189,248,0.16);color:#38bdf8;border-color:#38bdf8;margin-left:4px" title="Cluster Alta Disponibilidad ${p.ha_group}: ${p.ha_up_count}/${p.ha_total_count} nodos activos (${(p.ha_nodes || []).join(', ')})">⚡ HA ${p.ha_up_count}/${p.ha_total_count}</span>`
+      : '';
+    const openUrlTarget = (!isUp && p.ha_failover_url) ? p.ha_failover_url : activeUrl;
+    const openLabel = (!isUp && p.ha_failover_url) ? `Failover (${p.ha_failover_node})` : `Abrir ${primaryTag}`;
+    const openBtn = (p.port && p.port !== 1433 && p.port !== 5555 && openUrlTarget)
+      ? `<a class="act-btn open" href="${openUrlTarget}" target="_blank" title="${openUrlTarget}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> ${openLabel}</a>`
       : '';
     return `
       <div class="card ${isUp ? 'running' : 'stopped'}">
@@ -770,7 +779,10 @@ function renderServices() {
             <div class="card-title">${p.name}</div>
             <div class="card-sub">${p.description}</div>
           </div>
-          <span class="status-badge ${isUp ? 'up' : 'down'}">${isUp ? 'ONLINE ' + p.latency_ms + 'ms' : 'OFFLINE'}</span>
+          <div style="display:flex;align-items:center">
+            ${haBadge}
+            <span class="status-badge ${isUp ? 'up' : 'down'}" style="margin-left:4px">${isUp ? 'ONLINE ' + p.latency_ms + 'ms' : 'OFFLINE'}</span>
+          </div>
         </div>
         <div class="meta-row">
           <span>${p.node_label}</span>
@@ -915,6 +927,46 @@ TARGET_ALIAS_MAP = {
 }
 
 
+HA_FAILOVER_GROUPS = {
+    "HA-MERLIN-9000": ["merlin-soc-home", "merlin-soc-222", "merlin-soc-218", "merlin-soc-237"],
+    "HA-BRAIN-8090": ["brain-portal-home", "brain-portal-218", "brain-portal-hub"],
+    "HA-PORYGON-5090": ["porygon-xdr-home", "porygon-xdr-222"],
+    "HA-ROUTEROS-8085": ["routeros-home", "selective-router"],
+    "HA-TASKHUB": ["taskhub-222", "taskhub-home-218"],
+    "HA-BECAFINDER": ["becafinder-222", "becafinder-home-218"],
+    "HA-OW-IDS": ["desencript-c2", "ow-ids-218"],
+    "HA-OLLAMA-LLM": ["ollama-222", "ollama-218"],
+    "HA-QB-WEB": ["qb-web-prod", "qb-web-dev", "qb-web-222"],
+    "HA-QB-PORTAL": ["qb-panel-dev", "portal-empleados"],
+    "HA-POCO-MOBILE": ["poco-scrcpy-home", "poco-agy-auditor", "poco-adb-bridge"],
+}
+
+
+def enrich_ha_clusters(probed: list[dict]) -> list[dict]:
+    by_id = {p["id"]: p for p in probed if p.get("id")}
+    id_to_group = {}
+    for grp, members in HA_FAILOVER_GROUPS.items():
+        for mid in members:
+            id_to_group[mid] = grp
+
+    for p in probed:
+        pid = p.get("id")
+        grp = id_to_group.get(pid)
+        if not grp:
+            continue
+        members = [by_id[m] for m in HA_FAILOVER_GROUPS[grp] if m in by_id]
+        up_members = [m for m in members if m.get("status") == "RUNNING"]
+        p["ha_group"] = grp
+        p["ha_up_count"] = len(up_members)
+        p["ha_total_count"] = len(members)
+        p["ha_nodes"] = [m.get("node_label", "") for m in members]
+        if p.get("status") != "RUNNING" and up_members:
+            best_peer = sorted(up_members, key=lambda x: x.get("latency_ms") or 999)[0]
+            p["ha_failover_url"] = best_peer.get("ts_url") or best_peer.get("url")
+            p["ha_failover_node"] = best_peer.get("node_label")
+    return probed
+
+
 class MerlinWebHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         return
@@ -965,7 +1017,7 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
             with ThreadPoolExecutor(max_workers=48) as pool:
                 proj_futures = [pool.submit(probe_project, p, use_ts) for p in projects]
                 node_futures = [pool.submit(check_tcp, n["ts_ip"], n["probe_port"], 0.25) for n in TAILSCALE_NODES]
-                probed = [f.result() for f in proj_futures]
+                probed = enrich_ha_clusters([f.result() for f in proj_futures])
                 node_results = [f.result() for f in node_futures]
 
             nodes_out = []

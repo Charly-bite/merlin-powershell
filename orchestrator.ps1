@@ -129,6 +129,7 @@ $script:NodeCatalog = @{
     "100.105.210.35" = @{ Alias = "serverwebqb-ts"; Label = "WEB-HUB (.237)";            LogDir = "C:\Users\Administrador\.gemini\brain-portal"; LanIp = "192.168.2.237"; TailscaleIp = "100.105.210.35" }
     "192.168.2.187"  = @{ Alias = "qb-bd-ts";       Label = "BD-VAULT (.187)";           LogDir = "C:\Users\Administrador\logs"; LanIp = "192.168.2.187"; TailscaleIp = "100.102.18.118" }
     "100.102.18.118" = @{ Alias = "qb-bd-ts";       Label = "BD-VAULT (.187)";           LogDir = "C:\Users\Administrador\logs"; LanIp = "192.168.2.187"; TailscaleIp = "100.102.18.118" }
+    "100.126.87.126" = @{ Alias = "poco";           Label = "POCO (.126)";               LogDir = "C:\Users\Admin\Desktop\Merlin\logs"; LanIp = "192.168.2.103"; TailscaleIp = "100.126.87.126" }
 }
 
 function Get-ProjectNodeLabel {
@@ -1225,6 +1226,7 @@ $script:NodeFilters = @(
     "192.168.2.218 (Produccion)",
     "WEB-HUB (.237)",
     "BD-VAULT (.187)",
+    "POCO (.126)",
     "ALL"
 )
 
@@ -1357,6 +1359,9 @@ function Show-Dashboard {
     $bdSt    = @($allSt | Where-Object { $_.NodeLabel -eq "BD-VAULT (.187)" })
     $bdUp    = @($bdSt | Where-Object { $_.Status -eq "RUNNING" }).Count
     $bdTot   = $bdSt.Count
+    $pocoSt  = @($allSt | Where-Object { $_.NodeLabel -eq "POCO (.126)" })
+    $pocoUp  = @($pocoSt | Where-Object { $_.Status -eq "RUNNING" }).Count
+    $pocoTot = $pocoSt.Count
 
     $bufWidth  = try { [Console]::BufferWidth } catch { 120 }
     $winHeight = try { [Console]::WindowHeight } catch { 45 }
@@ -1389,6 +1394,7 @@ function Show-Dashboard {
         @{ Filter = "192.168.2.218 (Produccion)";Short = ".218"; Up = $prodUp; Tot = $prodTot },
         @{ Filter = "WEB-HUB (.237)";            Short = ".237"; Up = $hubUp;  Tot = $hubTot  },
         @{ Filter = "BD-VAULT (.187)";           Short = ".187"; Up = $bdUp;   Tot = $bdTot   },
+        @{ Filter = "POCO (.126)";               Short = "POCO"; Up = $pocoUp; Tot = $pocoTot },
         @{ Filter = "ALL";                       Short = "ALL";  Up = @($allSt | Where-Object { $_.Status -eq "RUNNING" }).Count; Tot = $allSt.Count }
     )
     $tabParts = @()
