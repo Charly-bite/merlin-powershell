@@ -161,19 +161,32 @@ def check_poco_icmp() -> tuple[bool, int]:
     return False, 0
 
 
+_HOST_SEMAPHORES: dict[str, threading.Semaphore] = {}
+_HOST_SEM_LOCK = threading.Lock()
+
+
+def _get_host_sem(host: str) -> threading.Semaphore:
+    with _HOST_SEM_LOCK:
+        if host not in _HOST_SEMAPHORES:
+            _HOST_SEMAPHORES[host] = threading.Semaphore(5)
+        return _HOST_SEMAPHORES[host]
+
+
 def check_tcp(host: str, port: int, timeout: float = 0.25) -> tuple[bool, int]:
     if not port:
         return False, 0
     if int(port) == 5555:
         # Evita abrir sockets TCP crudos contra adbd:5555 que disparan notificaciones de conexion/desconexion en Android
         return check_poco_icmp()
-    t0 = time.perf_counter()
-    try:
-        with socket.create_connection((host, int(port)), timeout=timeout):
-            ms = int((time.perf_counter() - t0) * 1000)
-            return True, max(1, ms)
-    except Exception:
-        return False, 0
+    sem = _get_host_sem(host)
+    with sem:
+        t0 = time.perf_counter()
+        try:
+            with socket.create_connection((host, int(port)), timeout=timeout):
+                ms = int((time.perf_counter() - t0) * 1000)
+                return True, max(1, ms)
+        except Exception:
+            return False, 0
 
 
 def load_projects():
