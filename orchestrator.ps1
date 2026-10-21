@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Merlin - Development Server Manager (PowerShell Terminal)
 
@@ -1455,7 +1455,13 @@ function Show-Dashboard {
     $descStr = (" - $($sel.Description)").PadRight($descPad).Substring(0, $descPad)
     $leftLines.Add("  ${cDkGray}|  Selected: ${cWhite}$($sel.Name)${cDkGray}${descStr}|${cReset}")
 
-    $urlDisplay = if ($sel.Url) { $sel.Url } else { "Endpoint: $($sel.Address)" }
+    $urlDisplay = if ($sel.Url) {
+        if ($sel.ExternalIp -eq "100.90.211.9" -and $sel.Url -match "^http://(localhost|127\.0\.0\.1):(\d+)") {
+            "$($sel.Url)  [Tailscale: http://100.90.211.9:$($Matches[2])]"
+        } else {
+            $sel.Url
+        }
+    } else { "Endpoint: $($sel.Address)" }
     if ($script:LastHealEvent) {
         $maxUrlRoom = 71 - $script:LastHealEvent.Length
         if ($maxUrlRoom -gt 20 -and $urlDisplay.Length -le $maxUrlRoom) {
