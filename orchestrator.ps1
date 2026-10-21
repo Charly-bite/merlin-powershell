@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Merlin - Development Server Manager (PowerShell Terminal)
 
@@ -121,8 +121,8 @@ $script:LastAllStatuses   = $null
 $script:NodeCatalog = @{
     "100.90.211.9"   = @{ Alias = "home";           Label = "HOME (Local)";              LogDir = "C:\Users\Admin\Desktop\Merlin\logs"; LanIp = "100.90.211.9"; TailscaleIp = "100.90.211.9" }
     "127.0.0.1"      = @{ Alias = "home";           Label = "HOME (Local)";              LogDir = "C:\Users\Admin\Desktop\Merlin\logs"; LanIp = "127.0.0.1";    TailscaleIp = "100.90.211.9" }
-    "192.168.2.218"  = @{ Alias = "desarrollo";     Label = "192.168.2.218 (Produccion)"; LogDir = "C:\Users\QB_DESARROLLO\Desktop\Merlin\logs"; LanIp = "192.168.2.218"; TailscaleIp = "100.77.199.69" }
-    "100.77.199.69"  = @{ Alias = "desarrollo";     Label = "192.168.2.218 (Produccion)"; LogDir = "C:\Users\QB_DESARROLLO\Desktop\Merlin\logs"; LanIp = "192.168.2.218"; TailscaleIp = "100.77.199.69" }
+    "192.168.2.218"  = @{ Alias = "desarrollo";     Label = "192.168.2.218 (Produccion)"; LogDir = "C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\logs"; LanIp = "192.168.2.218"; TailscaleIp = "100.77.199.69" }
+    "100.77.199.69"  = @{ Alias = "desarrollo";     Label = "192.168.2.218 (Produccion)"; LogDir = "C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\logs"; LanIp = "192.168.2.218"; TailscaleIp = "100.77.199.69" }
     "192.168.2.222"  = @{ Alias = "office-pc";      Label = "192.168.2.222 (Dev)";       LogDir = "C:\Users\CarlosAlbertoAcevesC\Desktop\02-plataformas-activas\merlin\logs"; LanIp = "192.168.2.222"; TailscaleIp = "100.89.1.27" }
     "100.89.1.27"    = @{ Alias = "office-pc";      Label = "192.168.2.222 (Dev)";       LogDir = "C:\Users\CarlosAlbertoAcevesC\Desktop\02-plataformas-activas\merlin\logs"; LanIp = "192.168.2.222"; TailscaleIp = "100.89.1.27" }
     "192.168.2.237"  = @{ Alias = "serverwebqb-ts"; Label = "WEB-HUB (.237)";            LogDir = "C:\Users\Administrador\.gemini\brain-portal"; LanIp = "192.168.2.237"; TailscaleIp = "100.105.210.35" }
@@ -200,7 +200,7 @@ function Start-AsyncRemotePortScans {
     foreach ($ip in $uniqueIps.Keys) {
         if ($script:ActiveSshScans.ContainsKey($ip)) { continue }
         $lastTime = $script:RemoteCacheTime[$ip]
-        if (-not $Force -and $lastTime -and (($now - $lastTime).TotalSeconds -lt 10)) { continue }
+        if (-not $Force -and $lastTime -and (($now - $lastTime).TotalSeconds -lt 45)) { continue }
         $alias = $uniqueIps[$ip]
         try {
             $psi = New-Object System.Diagnostics.ProcessStartInfo
@@ -397,18 +397,29 @@ function Get-ProjectStatus {
             }
         }
     } elseif ($null -ne $remoteNode) {
-        # Multi-Server Remote Node (.218, .222, .237, .187)
+        # Multi-Server Remote Node (.218, .222, .237, .187, home)
         $extIp = $Project.external_ip
         $tcpKey = "${extIp}:${port}"
         $tcpUp = $port -and $RemoteTcpMap.ContainsKey($tcpKey) -and $RemoteTcpMap[$tcpKey]
         $sshMap = $script:RemotePortCache[$extIp]
         $sshPid = if ($port -and $sshMap -and $sshMap.ContainsKey([int]$port)) { $sshMap[[int]$port] } else { $null }
+        $nodeReachable = ($sshMap -and $sshMap.Count -gt 0) -or
+                         ($RemoteTcpMap.ContainsKey("${extIp}:8085") -and $RemoteTcpMap["${extIp}:8085"]) -or
+                         ($RemoteTcpMap.ContainsKey("${extIp}:8090") -and $RemoteTcpMap["${extIp}:8090"])
 
-        if ($Project.host -eq "127.0.0.1") {
-            # Localhost-only service on remote host: rely on SSH netstat cache
+        if (-not $port -and $Project.process_match) {
+            if ($nodeReachable) {
+                $status = "RUNNING"
+                $pid_ = "daemon"
+            }
+        } elseif ($Project.host -like "127.*") {
+            # Localhost-bound service on remote host: rely on SSH netstat cache (or node reachability if cache pending)
             if ($sshPid) {
                 $status = "RUNNING"
                 $pid_ = $sshPid
+            } elseif (-not $sshMap -and $nodeReachable) {
+                $status = "RUNNING"
+                $pid_ = "remote"
             }
         } else {
             if ($tcpUp -or $sshPid) {
@@ -440,6 +451,11 @@ function Get-ProjectStatus {
                 if ($matchedProc) {
                     $pid_ = [int]$matchedProc.ProcessId
                     $status = "RUNNING"
+                } elseif ($Project.id -eq "clipboard-bridge-home") {
+                    try {
+                        $m = [System.Threading.Mutex]::OpenExisting("Local\AntigravityClipboardScreenshotBridge")
+                        if ($m) { $m.Dispose(); $status = "RUNNING"; $pid_ = "mutex" }
+                    } catch {}
                 }
             } catch {}
         }
@@ -969,13 +985,13 @@ Write-Output ("OK:" + $res.ProcessId)
 
     # 3. Wake 192.168.2.218 (QB_DESARROLLO)
     try {
-        $remoteScript218 = "C:\Users\QB_DESARROLLO\Desktop\Merlin\start_all_services.ps1"
+        $remoteScript218 = "C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\start_all_services.ps1"
         if ($localSet.ContainsKey("192.168.2.218") -or $localSet.ContainsKey("100.77.199.69") -or $env:COMPUTERNAME -eq "Desarrollo") {
             Write-Host "  [3/4] Waking QB-DEV (192.168.2.218) locally..." -ForegroundColor Yellow
             & $remoteScript218
         } else {
             Write-Host "  [3/4] Connecting to 'desarrollo' (192.168.2.218) via SSH..." -ForegroundColor Yellow
-            $psCode218 = "& 'C:\Users\QB_DESARROLLO\Desktop\Merlin\start_all_services.ps1'"
+            $psCode218 = "& 'C:\Users\QB_DESARROLLO\Desktop\03-Orquestador-y-Proyectos-Home\Merlin\start_all_services.ps1'"
             $output218 = Invoke-RemoteNodePowerShell -Alias "desarrollo" -ScriptBlockText $psCode218 -TimeoutSecs 15
             foreach ($line in ($output218 -split "`r?`n")) {
                 if ($line.Trim()) {
@@ -1057,6 +1073,11 @@ function Invoke-AutoHealPass {
                 } catch {}
             }
         } elseif ($null -ne $remoteNode) {
+            # Skip remote SSH WMI auto-heal for interactive desktop/session daemons on Home (prevents Session 0 spawn storms)
+            if (-not $proj.port -or $proj.id -in @("porygon-xdr-home", "poco-scrcpy-home", "clipboard-bridge-home", "smart-failover-home", "routeros-home")) {
+                $script:AutoHealCooldowns[$proj.id] = $now.AddSeconds(120)
+                continue
+            }
             # Remote service (e.g. Home 100.90.211.9:8090, .218, .237): only attempt if SSH port 22 is open
             $sshCheckHost = if ($remoteNode.LanIp -and (Resolve-ReachableIp -Ip $proj.external_ip) -eq $remoteNode.LanIp) { $remoteNode.LanIp } else { $remoteNode.TailscaleIp }
             if ($sshCheckHost -and (Test-FastTcpPort -TargetHost $sshCheckHost -Port 22 -TimeoutMs 220)) {

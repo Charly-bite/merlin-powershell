@@ -208,7 +208,7 @@ def probe_project(proj: dict, use_tailscale_urls: bool) -> dict:
             candidates.append(primary_remote)
 
     up, latency_ms = False, 0
-    probe_timeout = 0.15 if local else 0.60
+    probe_timeout = 0.50 if local else 0.60
     proc_match = proj.get("process_match") or ""
     if port > 0:
         for c in candidates:
@@ -929,12 +929,16 @@ TARGET_ALIAS_MAP = {
 
 HA_FAILOVER_GROUPS = {
     "HA-MERLIN-9000": ["merlin-soc-home", "merlin-soc-222", "merlin-soc-218", "merlin-soc-237"],
+    "HA-WAOS-6002": ["waos-218", "whatsapp-ai-bot"],
     "HA-BRAIN-8090": ["brain-portal-home", "brain-portal-218", "brain-portal-hub"],
+    "HA-DORY-PHISHING": ["dory-phishing", "dory-phishing-218"],
+    "HA-DORY-MAIL": ["dory-stalwart", "dory-stalwart-218"],
+    "HA-DORY-TUNNEL": ["dory-tunnel", "dory-tunnel-218"],
+    "HA-QB-CCA": ["qb-cca", "qb-cca-218"],
     "HA-PORYGON-5090": ["porygon-xdr-home", "porygon-xdr-222"],
     "HA-ROUTEROS-8085": ["routeros-home", "selective-router"],
     "HA-TASKHUB": ["taskhub-222", "taskhub-home-218"],
     "HA-BECAFINDER": ["becafinder-222", "becafinder-home-218"],
-    "HA-OW-IDS": ["desencript-c2", "ow-ids-218"],
     "HA-OLLAMA-LLM": ["ollama-222", "ollama-218"],
     "HA-QB-WEB": ["qb-web-prod", "qb-web-dev", "qb-web-222"],
     "HA-QB-PORTAL": ["qb-panel-dev", "portal-empleados"],
@@ -999,6 +1003,10 @@ class MerlinWebHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(raw)))
             self.end_headers()
             self.wfile.write(raw)
+            return
+
+        if parsed.path == "/api/ping":
+            self._send_json({"ok": True, "status": "ok", "hostname": socket.gethostname()})
             return
 
         if parsed.path in ("/api/status", "/api/health"):
@@ -1106,18 +1114,26 @@ def auto_heal_and_ntfy_watchdog():
     time.sleep(10)
     while True:
         try:
-            subprocess.run(
-                ["powershell", "-NoProfile", "-Command", "if ((Get-Service Tailscale -ErrorAction SilentlyContinue).Status -ne 'Running') { Start-Service Tailscale -ErrorAction SilentlyContinue }"],
-                capture_output=True,
-                timeout=6,
-            )
+            sc_res = subprocess.run(["sc.exe", "query", "Tailscale"], capture_output=True, text=True, timeout=3)
+            if "RUNNING" not in (sc_res.stdout or "").upper():
+                subprocess.run(["sc.exe", "start", "Tailscale"], capture_output=True, timeout=5)
             projects = load_projects()
+            by_id = {p.get("id"): p for p in projects if p.get("id")}
             now_ts = time.time()
             for proj in projects:
                 pid = proj.get("id") or ""
+                if proj.get("port") == PORT or pid.startswith("merlin-soc-"):
+                    continue
                 ext_ip = proj.get("external_ip") or "127.0.0.1"
                 if not is_local_ip(ext_ip):
                     continue
+                standby_for = proj.get("ha_standby_for")
+                if standby_for and standby_for in by_id:
+                    primary_info = probe_project(by_id[standby_for], True)
+                    if bool(primary_info["healthy"]):
+                        down_since.pop(pid, None)
+                        alerted_down.discard(pid)
+                        continue
                 info = probe_project(proj, True)
                 is_up = bool(info["healthy"])
                 if is_up:
